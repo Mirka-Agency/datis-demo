@@ -194,7 +194,9 @@ a {
 	font-weight: 600;
 	padding: 0.5rem 1rem !important;
 	position: relative;
-	transition: color 0.25s ease, background 0.25s ease;
+	transition:
+		color 0.25s ease,
+		background 0.25s ease;
 }
 
 .navbar.scrolled .nav-link {
@@ -814,7 +816,7 @@ a {
 
 /* ===================== CTA ===================== */
 .cta-section {
-	padding: 0 0 6rem;
+	padding: 6rem;
 }
 
 .cta-box {
