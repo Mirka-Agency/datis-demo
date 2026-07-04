@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="داتیس — تأمین‌کننده پیشرو کودهای تخصصی و راهکارهای نوین تغذیه گیاهی در ایران و خاورمیانه"
+		/>
+		<title>داتیس | راهکارهای نوین تغذیه گیاهی</title>
+
+		<!-- Bootstrap 5 RTL -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+			rel="stylesheet"
+		/>
+
+		<!-- Vazirmatn Persian Font -->
+		<link
+			href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css"
+			rel="stylesheet"
+		/>
+
+		<!-- Bootstrap Icons -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+			rel="stylesheet"
+		/>
+
+		<!-- Custom Styles -->
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<!-- ========================= Navbar ========================= -->
+		<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+			<div class="container">
+				<a
+					class="navbar-brand"
+					href="#home"
+					aria-label="داتیس اگروکمیکالز"
+				>
+					<img
+						src="assets/img/logo-1.png"
+						alt="داتیس اگروکمیکالز"
+						class="navbar-logo"
+					/>
+				</a>
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarNav"
+					aria-controls="navbarNav"
+					aria-expanded="false"
+					aria-label="باز کردن منو"
+				>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a class="nav-link active" href="#home">خانه</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#explore"
+								>راهنمای انتخاب</a
+							>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#products">محصولات</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#learn">آموزش‌ها</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#events">رویدادها</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#footer">تماس</a>
+						</li>
+					</ul>
+					<div class="d-flex align-items-center gap-2">
+						<a
+							href="#explore"
+							class="btn btn-primary btn-sm rounded-pill px-3"
+							>شروع کنید</a
+						>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<!-- ========================= Hero / Video Slider ========================= -->
+		<section id="home" class="hero">
+			<video class="hero-video" autoplay muted loop playsinline poster="">
+				<source src="/assets/img/video.mp4" type="video/mp4" />
+			</video>
+			<div class="hero-overlay"></div>
+			<div class="container hero-content">
+				<div class="row">
+					<div class="col-lg-8">
+						<span class="hero-badge">
+							<i class="bi bi-stars"></i> راهکار هوشمند تغذیه
+							گیاهی
+						</span>
+						<h1 class="hero-title">تغذیه دقیق، برداشت پایدار</h1>
+						<p class="hero-lead">
+							مزرعه شما سزاوار تغذیه دقیق است. داتیس با کودهای
+							تخصصی و همراهی کارشناسان، به شما کمک می‌کند گیاه
+							سالم‌تر پرورش دهید و برداشت مطمئن‌تری داشته باشید.
+						</p>
+						<div class="hero-actions">
+							<a
+								href="#explore"
+								class="btn btn-primary btn-lg rounded-pill px-4"
+							>
+								<i class="bi bi-question-circle me-2"></i
+								>راهنمای انتخاب محصول
+							</a>
+							<a
+								href="#products"
+								class="btn btn-outline-light btn-lg rounded-pill px-4"
+							>
+								مشاهده محصولات
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="#explore" class="hero-scroll" aria-label="اسکرول به پایین">
+				<i class="bi bi-chevron-down"></i>
+			</a>
+		</section>
+
+		<!-- ========================= Filter / Explore ========================= -->
+		<section id="explore" class="section explore-section">
+			<div class="container">
+				<div class="section-head text-center">
+					<span class="eyebrow">راهنمای انتخاب</span>
+					<h2 class="section-title">علاقه‌مندی خود را انتخاب کنید</h2>
+					<p class="section-desc mx-auto">
+						راهکار مناسب را بر اساس محصول کشاورزی، نوع کشت یا
+						خانواده محصولات داتیس بیابید.
+					</p>
+				</div>
+
+				<ul
+					class="nav explore-tabs justify-content-center"
+					id="exploreTab"
+					role="tablist"
+				>
+					<li class="nav-item" role="presentation">
+						<button
+							class="explore-tab active"
+							id="tab-crop"
+							data-bs-toggle="tab"
+							data-bs-target="#pane-crop"
+							type="button"
+							role="tab"
+							aria-controls="pane-crop"
+							aria-selected="true"
+						>
+							<i class="bi bi-flower1"></i>
+							<span>بر اساس محصول کشاورزی</span>
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button
+							class="explore-tab"
+							id="tab-method"
+							data-bs-toggle="tab"
+							data-bs-target="#pane-method"
+							type="button"
+							role="tab"
+							aria-controls="pane-method"
+							aria-selected="false"
+						>
+							<i class="bi bi-droplet-half"></i>
+							<span>بر اساس نوع کشت</span>
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button
+							class="explore-tab"
+							id="tab-product"
+							data-bs-toggle="tab"
+							data-bs-target="#pane-product"
+							type="button"
+							role="tab"
+							aria-controls="pane-product"
+							aria-selected="false"
+						>
+							<i class="bi bi-box-seam"></i>
+							<span>بر اساس محصولات</span>
+						</button>
+					</li>
+				</ul>
+
+				<div class="tab-content explore-content" id="exploreTabContent">
+					<!-- Crops -->
+					<div
+						class="tab-pane fade show active"
+						id="pane-crop"
+						role="tabpanel"
+						aria-labelledby="tab-crop"
+					>
+						<div class="chip-grid">
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-tomato.png"
+										alt="گوجه‌فرنگی"
+										loading="lazy" /></span
+								><span class="chip-label">گوجه‌فرنگی</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-cucumber.png"
+										alt="خیار"
+										loading="lazy" /></span
+								><span class="chip-label">خیار</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-pepper.png"
+										alt="فلفل"
+										loading="lazy" /></span
+								><span class="chip-label">فلفل</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-potato.png"
+										alt="سیب‌زمینی"
+										loading="lazy" /></span
+								><span class="chip-label">سیب‌زمینی</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-strawberry.png"
+										alt="توت‌فرنگی"
+										loading="lazy" /></span
+								><span class="chip-label">توت‌فرنگی</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-citrus.png"
+										alt="مرکبات"
+										loading="lazy" /></span
+								><span class="chip-label">مرکبات</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-banana.png"
+										alt="موز"
+										loading="lazy" /></span
+								><span class="chip-label">موز</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-olives.png"
+										alt="زیتون"
+										loading="lazy" /></span
+								><span class="chip-label">زیتون</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-rice.png"
+										alt="برنج"
+										loading="lazy" /></span
+								><span class="chip-label">برنج</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-wheat.png"
+										alt="گندم"
+										loading="lazy" /></span
+								><span class="chip-label">گندم</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-onion.png"
+										alt="پیاز"
+										loading="lazy" /></span
+								><span class="chip-label">پیاز</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-apple.png"
+										alt="سیب"
+										loading="lazy" /></span
+								><span class="chip-label">سیب</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-grapes.png"
+										alt="انگور"
+										loading="lazy" /></span
+								><span class="chip-label">انگور</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/crop-corn.png"
+										alt="ذرت"
+										loading="lazy" /></span
+								><span class="chip-label">ذرت</span></a
+							>
+						</div>
+					</div>
+					<!-- Methods -->
+					<div
+						class="tab-pane fade"
+						id="pane-method"
+						role="tabpanel"
+						aria-labelledby="tab-method"
+					>
+						<div class="chip-grid">
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/method-greenhouse.jpg"
+										alt="گلخانه"
+										loading="lazy" /></span
+								><span class="chip-label">گلخانه</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/method-openfield.png"
+										alt="فضای باز"
+										loading="lazy" /></span
+								><span class="chip-label">فضای باز</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/method-nutrigation.png"
+										alt="آبیاری قطره‌ای"
+										loading="lazy" /></span
+								><span class="chip-label"
+									>آبیاری قطره‌ای</span
+								></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/method-foliar.png"
+										alt="محلول‌پاشی"
+										loading="lazy" /></span
+								><span class="chip-label">محلول‌پاشی</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/method-soil.png"
+										alt="کوددهی خاکی"
+										loading="lazy" /></span
+								><span class="chip-label">کوددهی خاکی</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/method-nurseries.png"
+										alt="نهالستان"
+										loading="lazy" /></span
+								><span class="chip-label">نهالستان</span></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/method-pivot.png"
+										alt="آبیاری بارانی"
+										loading="lazy" /></span
+								><span class="chip-label"
+									>آبیاری بارانی</span
+								></a
+							>
+							<a href="#products" class="chip"
+								><span class="chip-img"
+									><img
+										src="assets/img/method-fruittrees.png"
+										alt="درختان میوه"
+										loading="lazy" /></span
+								><span class="chip-label">درختان میوه</span></a
+							>
+						</div>
+					</div>
+					<!-- Products -->
+					<div
+						class="tab-pane fade"
+						id="pane-product"
+						role="tabpanel"
+						aria-labelledby="tab-product"
+					>
+						<div class="chip-grid">
+							<a href="#products" class="chip chip--product"
+								><span class="chip-img"
+									><img
+										src="assets/img/prod-potassium.png"
+										alt="پتاسیم نیترات"
+										loading="lazy" /></span
+								><span class="chip-label"
+									>پتاسیم نیترات</span
+								></a
+							>
+							<a href="#products" class="chip chip--product"
+								><span class="chip-img"
+									><img
+										src="assets/img/prod-soluble.png"
+										alt="کودهای محلول در آب"
+										loading="lazy" /></span
+								><span class="chip-label"
+									>کودهای محلول در آب</span
+								></a
+							>
+							<a href="#products" class="chip chip--product"
+								><span class="chip-img"
+									><img
+										src="assets/img/prod-biostimulant.png"
+										alt="بایواستیمولانت‌ها"
+										loading="lazy" /></span
+								><span class="chip-label"
+									>بایواستیمولانت‌ها</span
+								></a
+							>
+							<a href="#products" class="chip chip--product"
+								><span class="chip-img"
+									><img
+										src="assets/img/prod-micro.png"
+										alt="ریزمغذی‌ها"
+										loading="lazy" /></span
+								><span class="chip-label">ریزمغذی‌ها</span></a
+							>
+							<a href="#products" class="chip chip--product"
+								><span class="chip-img"
+									><img
+										src="assets/img/prod-crf.png"
+										alt="کودهای کندرها"
+										loading="lazy" /></span
+								><span class="chip-label"
+									>کودهای کندرها</span
+								></a
+							>
+							<a href="#products" class="chip chip--product"
+								><span class="chip-img"
+									><img
+										src="assets/img/prod-npk.png"
+										alt="NPK گرانوله"
+										loading="lazy" /></span
+								><span class="chip-label">NPK گرانوله</span></a
+							>
+							<a href="#products" class="chip chip--product"
+								><span class="chip-img"
+									><img
+										src="assets/img/prod-calcium.png"
+										alt="کلسیم نیترات"
+										loading="lazy" /></span
+								><span class="chip-label">کلسیم نیترات</span></a
+							>
+							<a href="#products" class="chip chip--product"
+								><span class="chip-img"
+									><img
+										src="assets/img/prod-foliar.png"
+										alt="کودهای محلول‌پاشی"
+										loading="lazy" /></span
+								><span class="chip-label"
+									>کودهای محلول‌پاشی</span
+								></a
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ========================= Products ========================= -->
+		<section id="products" class="section section-soft">
+			<div class="container">
+				<div
+					class="section-head d-flex flex-wrap justify-content-between align-items-end gap-3"
+				>
+					<div>
+						<span class="eyebrow">محصولات</span>
+						<h2 class="section-title mb-0">محصولات منتخب داتیس</h2>
+					</div>
+					<a
+						href="#products"
+						class="btn btn-outline-primary rounded-pill px-4"
+						>مشاهده همه</a
+					>
+				</div>
+
+				<div class="row g-4">
+					<div class="col-md-6 col-lg-3">
+						<article class="product-card">
+							<div class="product-media">
+								<span class="product-tag">پرفروش</span>
+								<img
+									src="assets/img/prod-potassium.png"
+									alt="پتاسیم نیترات محلول"
+									loading="lazy"
+								/>
+							</div>
+							<div class="product-body">
+								<h5>پتاسیم نیترات محلول</h5>
+								<p>
+									کود کاملاً محلول برای کوددهی قطره‌ای در
+									گلخانه و فضای باز.
+								</p>
+								<a href="#" class="product-link"
+									>جزئیات محصول
+									<i class="bi bi-arrow-left"></i
+								></a>
+							</div>
+						</article>
+					</div>
+					<div class="col-md-6 col-lg-3">
+						<article class="product-card">
+							<div class="product-media">
+								<img
+									src="assets/img/prod-soluble.png"
+									alt="NPK محلول ۱۸-۱۸-۱۸"
+									loading="lazy"
+								/>
+							</div>
+							<div class="product-body">
+								<h5>NPK محلول ۱۸-۱۸-۱۸</h5>
+								<p>
+									کود کامل با ریزمغذی برای تغذیه متوازن در
+									تمام مراحل رشد.
+								</p>
+								<a href="#" class="product-link"
+									>جزئیات محصول
+									<i class="bi bi-arrow-left"></i
+								></a>
+							</div>
+						</article>
+					</div>
+					<div class="col-md-6 col-lg-3">
+						<article class="product-card">
+							<div class="product-media">
+								<span class="product-tag">جدید</span>
+								<img
+									src="assets/img/prod-biostimulant.png"
+									alt="بایواستیمولانت رشد ریشه"
+									loading="lazy"
+								/>
+							</div>
+							<div class="product-body">
+								<h5>بایواستیمولانت رشد ریشه</h5>
+								<p>
+									تقویت فعالیت ریشه و افزایش مقاومت گیاه در
+									برابر تنش‌ها.
+								</p>
+								<a href="#" class="product-link"
+									>جزئیات محصول
+									<i class="bi bi-arrow-left"></i
+								></a>
+							</div>
+						</article>
+					</div>
+					<div class="col-md-6 col-lg-3">
+						<article class="product-card">
+							<div class="product-media">
+								<img
+									src="assets/img/prod-crf.png"
+									alt="کود کندرها گرانوله"
+									loading="lazy"
+								/>
+							</div>
+							<div class="product-body">
+								<h5>کود کندرها گرانوله</h5>
+								<p>
+									آزادسازی کنترل‌شده مواد مغذی برای تغذیه
+									بلندمدت گیاه.
+								</p>
+								<a href="#" class="product-link"
+									>جزئیات محصول
+									<i class="bi bi-arrow-left"></i
+								></a>
+							</div>
+						</article>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ========================= Learn / Education ========================= -->
+		<section id="learn" class="section">
+			<div class="container">
+				<div class="section-head text-center">
+					<span class="eyebrow">دانش و آموزش</span>
+					<h2 class="section-title">آموزش‌ها و دانش کشاورزی</h2>
+					<p class="section-desc mx-auto">
+						ویدیوها، مقالات و راهنماهای تخصصی برای تغذیه بهتر و
+						برداشت بیشتر.
+					</p>
+				</div>
+
+				<div class="row g-4">
+					<div class="col-lg-6">
+						<article class="learn-feature">
+							<div class="learn-video">
+								<video
+									muted
+									loop
+									playsinline
+									preload="metadata"
+								>
+									<source
+										src="/assets/img/video.mp4"
+										type="video/mp4"
+									/>
+								</video>
+								<button
+									class="learn-play"
+									aria-label="پخش ویدیو"
+								>
+									<i class="bi bi-play-fill"></i>
+								</button>
+								<span class="learn-type"
+									><i class="bi bi-camera-video"></i>
+									ویدیو</span
+								>
+							</div>
+							<div class="learn-feature-body">
+								<span class="learn-cat">کوددهی قطره‌ای</span>
+								<h4>روش دقیق تغذیه گیاه با آبیاری قطره‌ای</h4>
+								<p>
+									در این ویدیو با اصول کوددهی همراه با آب و
+									مزایای آن برای افزایش راندمان مصرف کود آشنا
+									می‌شوید.
+								</p>
+							</div>
+						</article>
+					</div>
+
+					<div class="col-lg-6">
+						<div class="d-flex flex-column gap-4 h-100">
+							<article class="learn-item">
+								<div class="learn-icon">
+									<i class="bi bi-file-earmark-text"></i>
+								</div>
+								<div>
+									<span class="learn-cat">مقاله</span>
+									<h5>
+										راهنمای تغذیه گلخانه‌ای در بستر بدون خاک
+									</h5>
+									<p>
+										نکات کلیدی مدیریت مواد مغذی در کشت
+										هیدروپونیک.
+									</p>
+								</div>
+							</article>
+							<article class="learn-item">
+								<div class="learn-icon">
+									<i class="bi bi-clipboard-data"></i>
+								</div>
+								<div>
+									<span class="learn-cat">راهنما</span>
+									<h5>
+										برطرف کردن کمبود ریزمغذی‌ها در گیاهان
+									</h5>
+									<p>
+										تشخیص علائم کمبود و راهکارهای اصلاحی
+										مؤثر.
+									</p>
+								</div>
+							</article>
+							<article class="learn-item">
+								<div class="learn-icon">
+									<i class="bi bi-mic"></i>
+								</div>
+								<div>
+									<span class="learn-cat">پادکست</span>
+									<h5>کشاورزی دقیق و آینده تغذیه گیاهی</h5>
+									<p>
+										گفت‌وگو با کارشناسان درباره فناوری‌های
+										نوین.
+									</p>
+								</div>
+							</article>
+							<div class="text-start">
+								<a
+									href="#learn"
+									class="btn btn-outline-primary rounded-pill px-4"
+									>همه آموزش‌ها</a
+								>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ========================= Stats ========================= -->
+		<section id="stats" class="stats-section">
+			<div class="container">
+				<div class="section-head text-center">
+					<span class="eyebrow eyebrow-light">داتیس در یک نگاه</span>
+					<h2 class="section-title text-white">
+						اعداد و ارقامی که به آن‌ها می‌بالیم
+					</h2>
+				</div>
+				<div class="row g-4 text-center">
+					<div class="col-6 col-lg-3">
+						<div class="stat">
+							<i class="bi bi-globe-americas"></i>
+							<div
+								class="stat-num"
+								data-count="10"
+								data-suffix="+"
+							>
+								۰
+							</div>
+							<div class="stat-label">کشور تحت پوشش</div>
+						</div>
+					</div>
+					<div class="col-6 col-lg-3">
+						<div class="stat">
+							<i class="bi bi-people"></i>
+							<div
+								class="stat-num"
+								data-count="500"
+								data-suffix="+"
+							>
+								۰
+							</div>
+							<div class="stat-label">مشتری وفادار</div>
+						</div>
+					</div>
+					<div class="col-6 col-lg-3">
+						<div class="stat">
+							<i class="bi bi-map"></i>
+							<div
+								class="stat-num"
+								data-count="12000"
+								data-suffix="+"
+							>
+								۰
+							</div>
+							<div class="stat-label">هکتار زیر پوشش</div>
+						</div>
+					</div>
+					<div class="col-6 col-lg-3">
+						<div class="stat">
+							<i class="bi bi-patch-check"></i>
+							<div
+								class="stat-num"
+								data-count="25"
+								data-suffix="+"
+							>
+								۰
+							</div>
+							<div class="stat-label">استاندارد و گواهی</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ========================= Events ========================= -->
+		<section id="events" class="section section-soft">
+			<div class="container">
+				<div
+					class="section-head d-flex flex-wrap justify-content-between align-items-end gap-3"
+				>
+					<div>
+						<span class="eyebrow">رویدادها</span>
+						<h2 class="section-title mb-0">رویدادها و اخبار</h2>
+					</div>
+					<a
+						href="#events"
+						class="btn btn-outline-primary rounded-pill px-4"
+						>همه رویدادها</a
+					>
+				</div>
+
+				<div class="row g-4">
+					<div class="col-md-6 col-lg-4">
+						<article class="event-card">
+							<div class="event-date">
+								<span class="day">۲۲</span>
+								<span class="month">تیر</span>
+							</div>
+							<div class="event-body">
+								<span class="event-tag">نمایشگاه</span>
+								<h5>حضور داتیس در نمایشگاه کشاورزی تهران</h5>
+								<p>
+									معرفی جدیدترین راهکارهای تغذیه گیاهی به
+									کشاورزان و متخصصان.
+								</p>
+								<a href="#" class="product-link"
+									>بیشتر بخوانید
+									<i class="bi bi-arrow-left"></i
+								></a>
+							</div>
+						</article>
+					</div>
+					<div class="col-md-6 col-lg-4">
+						<article class="event-card">
+							<div class="event-date">
+								<span class="day">۱۶</span>
+								<span class="month">تیر</span>
+							</div>
+							<div class="event-body">
+								<span class="event-tag">اخبار</span>
+								<h5>راه‌اندازی خط تولید جدید کودهای محلول</h5>
+								<p>
+									افزایش ظرفیت تولید برای پاسخ به تقاضای بازار
+									منطقه.
+								</p>
+								<a href="#" class="product-link"
+									>بیشتر بخوانید
+									<i class="bi bi-arrow-left"></i
+								></a>
+							</div>
+						</article>
+					</div>
+					<div class="col-md-6 col-lg-4">
+						<article class="event-card">
+							<div class="event-date">
+								<span class="day">۲۰</span>
+								<span class="month">خرداد</span>
+							</div>
+							<div class="event-body">
+								<span class="event-tag">همایش</span>
+								<h5>همایش تخصصی تغذیه مرکبات در شمال کشور</h5>
+								<p>
+									ارائه یافته‌های میدانی و تجربه‌های موفق
+									باغداران.
+								</p>
+								<a href="#" class="product-link"
+									>بیشتر بخوانید
+									<i class="bi bi-arrow-left"></i
+								></a>
+							</div>
+						</article>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ========================= CTA ========================= -->
+		<section class="cta-section">
+			<div class="container">
+				<div class="cta-box">
+					<div class="row align-items-center g-4 g-lg-5">
+						<div class="col-lg-5">
+							<span class="cta-eyebrow">
+								<i class="bi bi-headset"></i> مشاوره رایگان
+							</span>
+							<h3 class="mb-3">
+								آماده‌اید تغذیه مزرعه خود را متحول کنید؟
+							</h3>
+							<p class="mb-4">
+								فرم زیر را تکمیل کنید؛ کارشناسان داتیس در
+								کوتاه‌ترین زمان برای ارائه مشاوره تخصصی با شما
+								تماس می‌گیرند.
+							</p>
+							<ul class="cta-points">
+								<li>
+									<i class="bi bi-check-circle-fill"></i>
+									مشاوره تخصصی و کاملاً رایگان
+								</li>
+								<li>
+									<i class="bi bi-check-circle-fill"></i>
+									راهکار متناسب با محصول و نوع کشت شما
+								</li>
+								<li>
+									<i class="bi bi-check-circle-fill"></i>
+									پاسخ‌گویی در کمتر از ۲۴ ساعت
+								</li>
+							</ul>
+						</div>
+						<div class="col-lg-7">
+							<div class="cta-form-card">
+								<form id="consultForm" novalidate>
+									<div class="row g-3">
+										<div class="col-md-6">
+											<label
+												for="cName"
+												class="form-label"
+												>نام و نام خانوادگی</label
+											>
+											<input
+												type="text"
+												class="form-control"
+												id="cName"
+												placeholder="نام شما"
+												required
+											/>
+											<div class="invalid-feedback">
+												لطفاً نام خود را وارد کنید.
+											</div>
+										</div>
+										<div class="col-md-6">
+											<label
+												for="cPhone"
+												class="form-label"
+												>شماره تماس</label
+											>
+											<input
+												type="tel"
+												class="form-control"
+												id="cPhone"
+												placeholder="۰۹۱۲۳۴۵۶۷۸۹"
+												required
+											/>
+											<div class="invalid-feedback">
+												لطفاً شماره تماس معتبر وارد
+												کنید.
+											</div>
+										</div>
+										<div class="col-md-6">
+											<label
+												for="cInterest"
+												class="form-label"
+												>زمینه مورد نظر</label
+											>
+											<select
+												class="form-select"
+												id="cInterest"
+											>
+												<option value="" selected>
+													انتخاب کنید…
+												</option>
+												<option>
+													کودهای محلول در آب
+												</option>
+												<option>
+													بایواستیمولانت‌ها
+												</option>
+												<option>ریزمغذی‌ها</option>
+												<option>کودهای کندرها</option>
+												<option>مشاوره عمومی</option>
+											</select>
+										</div>
+										<div class="col-md-6">
+											<label
+												for="cMethod"
+												class="form-label"
+												>نوع کشت</label
+											>
+											<select
+												class="form-select"
+												id="cMethod"
+											>
+												<option value="" selected>
+													انتخاب کنید…
+												</option>
+												<option>گلخانه</option>
+												<option>فضای باز</option>
+												<option>آبیاری قطره‌ای</option>
+												<option>درختان میوه</option>
+											</select>
+										</div>
+										<div class="col-12">
+											<label for="cMsg" class="form-label"
+												>توضیحات (اختیاری)</label
+											>
+											<textarea
+												class="form-control"
+												id="cMsg"
+												rows="2"
+												placeholder="کمی درباره نیاز خود بنویسید…"
+											></textarea>
+										</div>
+										<div
+											class="col-12 d-grid d-sm-flex justify-content-sm-end"
+										>
+											<button
+												type="submit"
+												class="btn btn-primary btn-md rounded-pill px-4"
+											>
+												<i class="bi bi-send me-2"></i
+												>ثبت درخواست مشاوره
+											</button>
+										</div>
+									</div>
+								</form>
+								<div
+									id="consultSuccess"
+									class="cta-success d-none"
+									role="alert"
+								>
+									<i class="bi bi-check-circle"></i> درخواست
+									شما با موفقیت ثبت شد. به‌زودی با شما تماس
+									می‌گیریم.
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ========================= Footer ========================= -->
+		<footer id="footer" class="footer">
+			<div class="footer-curve" aria-hidden="true">
+				<svg
+					viewBox="0 0 1440 120"
+					preserveAspectRatio="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M0,64 C240,120 480,0 720,64 C960,128 1200,32 1440,80 L1440,120 L0,120 Z"
+					/>
+				</svg>
+			</div>
+			<div class="footer-glow footer-glow--1" aria-hidden="true"></div>
+			<div class="footer-glow footer-glow--2" aria-hidden="true"></div>
+
+			<div class="container footer-inner">
+				<div class="footer-top row g-4 g-xl-5 align-items-start">
+					<div class="col-lg-5">
+						<a class="footer-brand" href="#home">
+							<img
+								src="assets/img/logo-1.png"
+								alt="داتیس اگروکمیکالز"
+								class="footer-logo"
+							/>
+						</a>
+						<p class="footer-about">
+							تأمین‌کننده پیشرو کودهای تخصصی و راهکارهای نوین
+							تغذیه گیاهی در ایران و خاورمیانه — بیش از ۱۰ کشور
+							تحت پوشش.
+						</p>
+						<div class="footer-social">
+							<a
+								href="#"
+								class="footer-social-link"
+								aria-label="تلگرام"
+							>
+								<i class="bi bi-telegram"></i>
+							</a>
+							<a
+								href="#"
+								class="footer-social-link"
+								aria-label="اینستاگرام"
+							>
+								<i class="bi bi-instagram"></i>
+							</a>
+							<a
+								href="#"
+								class="footer-social-link"
+								aria-label="لینکدین"
+							>
+								<i class="bi bi-linkedin"></i>
+							</a>
+							<a
+								href="#"
+								class="footer-social-link"
+								aria-label="آپارات"
+							>
+								<i class="bi bi-play-btn"></i>
+							</a>
+						</div>
+					</div>
+
+					<div class="col-6 col-md-4 col-lg-2">
+						<h6 class="footer-heading">دسترسی سریع</h6>
+						<ul class="footer-links">
+							<li><a href="#products">محصولات</a></li>
+							<li><a href="#learn">آموزش‌ها</a></li>
+							<li><a href="#events">رویدادها</a></li>
+							<li><a href="#explore">راهنمای انتخاب</a></li>
+						</ul>
+					</div>
+
+					<div class="col-6 col-md-4 col-lg-2">
+						<h6 class="footer-heading">محصولات</h6>
+						<ul class="footer-links">
+							<li><a href="#products">پتاسیم نیترات</a></li>
+							<li><a href="#products">کودهای محلول</a></li>
+							<li><a href="#products">بایواستیمولانت‌ها</a></li>
+							<li><a href="#products">ریزمغذی‌ها</a></li>
+						</ul>
+					</div>
+
+					<div class="col-md-4 col-lg-3">
+						<h6 class="footer-heading">تماس</h6>
+						<ul class="footer-contact">
+							<li>
+								<span class="footer-contact-icon"
+									><i class="bi bi-geo-alt"></i
+								></span>
+								<span class="footer-contact-text"
+									>تهران، امانیه، خیابان ولیعصر، خیابان شهید
+									مهری، پلاک ۲۰، طبقه ۵، واحد ۹</span
+								>
+							</li>
+							<li>
+								<span class="footer-contact-icon"
+									><i class="bi bi-envelope"></i
+								></span>
+								<a href="mailto:info@datisac.com"
+									>info@datisac.com</a
+								>
+							</li>
+							<li>
+								<span class="footer-contact-icon"
+									><i class="bi bi-telephone"></i
+								></span>
+								<a href="tel:+982126210121">۰۲۱-۲۶۲۱۰۱۲۱</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="footer-newsletter">
+					<div class="footer-newsletter-text">
+						<h6 class="footer-heading mb-2">خبرنامه داتیس</h6>
+						<p>
+							تازه‌ترین اخبار و رویدادها را در ایمیل خود دریافت
+							کنید.
+						</p>
+					</div>
+					<form id="newsletterForm" class="newsletter" novalidate>
+						<div class="newsletter-group">
+							<input
+								type="email"
+								class="form-control"
+								id="newsletterEmail"
+								placeholder="ایمیل شما"
+								aria-label="ایمیل"
+								required
+							/>
+							<button class="btn btn-primary" type="submit">
+								عضویت
+							</button>
+						</div>
+						<div class="newsletter-msg" id="newsletterMsg"></div>
+					</form>
+				</div>
+
+				<div class="footer-bottom">
+					<small>
+						<a
+							href="https://mirka.agency"
+							class="footer-credit"
+							target="_blank"
+							rel="noopener noreferrer"
+							>💎درخشان با میرکا</a
+						>
+					</small>
+					<div class="footer-legal">
+						<a href="#">حریم خصوصی</a>
+						<span class="footer-dot" aria-hidden="true"></span>
+						<a href="#">شرایط استفاده</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<!-- Back to Top -->
+		<button id="backToTop" class="back-to-top" aria-label="بازگشت به بالا">
+			<i class="bi bi-arrow-up"></i>
+		</button>
+
+		<!-- Bootstrap JS -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		<!-- Custom JS -->
+		<script src="js/main.js"></script>
+	</body>
+</html>
+

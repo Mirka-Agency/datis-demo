@@ -1,0 +1,71 @@
+---
+description: استانداردهای توسعه وب‌سایت فارسی RTL با HTML/CSS/Bootstrap/JS
+globs: "**/*.{html,css,js}"
+alwaysApply: true
+---
+
+# وب‌سایت فارسی RTL — داتیس
+
+## زبان و جهت
+
+- همیشه `lang="fa"` و `dir="rtl"` روی `<html>` تنظیم شود
+- از Bootstrap RTL استفاده شود: `bootstrap.rtl.min.css` (نه نسخه LTR)
+- فونت پیش‌فرض: **Vazirmatn** با fallback به Tahoma
+- متن‌ها، placeholderها و aria-labelها به فارسی باشند
+- اعداد در UI فارسی با ارقام فارسی (۰–۹) نمایش داده شوند
+
+## ساختار فایل‌ها
+
+```
+index.html          # صفحه اصلی
+css/style.css       # استایل‌های سفارشی
+js/main.js          # اسکریپت‌های سفارشی
+```
+
+## Bootstrap 5
+
+- از CDN jsDelivr برای Bootstrap 5.3+ استفاده شود
+- کلاس‌های margin/padding RTL-aware Bootstrap را ترجیح دهید (`me-`, `ms-`, `pe-`, `ps-`)
+- از `bootstrap.bundle.min.js` برای collapse، modal و tooltip استفاده شود
+- آیکون‌ها از **Bootstrap Icons** CDN
+
+## CSS
+
+- متغیرهای CSS در `:root` برای رنگ‌ها و transitionها
+- استایل‌های سفارشی فقط در `css/style.css` — از inline style پرهیز شود
+- انیمیشن‌ها سبک و performant باشند (`transform`, `opacity`)
+- responsive با breakpointهای Bootstrap (`sm`, `md`, `lg`, `xl`)
+
+## پالت رنگ برند
+
+| نقش | متغیر | مقدار | کاربرد |
+|-----|-------|-------|--------|
+| اصلی | `--color-primary` | `#439A0D` | دکمه‌ها، لینک‌ها، accent |
+| تیره | `--color-dark` | `#082F12` | فوتر، متن تیره |
+| میانی | `--color-primary-hover` | `#18642E` | hover دکمه‌ها |
+| تأکید | `--color-accent` | `#42990E` | gradient، highlight |
+
+- همیشه از متغیرهای CSS استفاده شود — رنگ hardcode نشود
+- `--bs-primary` و `--bs-primary-rgb` برای Bootstrap override تنظیم شده‌اند
+- پس‌زمینه‌های روشن: `#f4faf0` / `#e8f5e0` (سبز ملایم)
+
+## JavaScript
+
+- IIFE با `'use strict'` برای scope ایزوله
+- event listenerها با `{ passive: true }` برای scroll
+- فرم‌ها با Bootstrap validation (`was-validated`, `checkValidity`)
+- از vanilla JS استفاده شود — بدون فریم‌ورک اضافی
+
+## دسترسی‌پذیری
+
+- `aria-label` برای دکمه‌های بدون متن
+- `alt` برای تصاویر
+- کنtrast رنگ مناسب برای خوانایی
+- `scroll-padding-top` برای navbar ثابت
+
+## ممنوعیت‌ها
+
+- ❌ فریم‌ورک JS اضافی (React, Vue, jQuery) بدون درخواست صریح
+- ❌ Bootstrap LTR CSS
+- ❌ فونت‌های sans-serif لاتین بدون fallback فارسی
+- ❌ متن انگلیسی در UI کاربر (به جز URL، ایمیل، کد)
