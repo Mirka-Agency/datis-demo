@@ -44,6 +44,113 @@
   window.addEventListener('scroll', handleScroll, { passive: true });
   handleScroll();
 
+  /* -------- Mobile menu (custom slide — no Bootstrap height animation) -------- */
+  const navCollapse = document.getElementById('navbarNav');
+  const navToggler = document.querySelector('.navbar-toggler');
+  const mobileNavMq = window.matchMedia('(max-width: 991.98px)');
+  let savedScrollY = 0;
+  let mobileNavClosing = false;
+
+  function isMobileNav() {
+    return mobileNavMq.matches;
+  }
+
+  function lockPageScroll() {
+    savedScrollY = window.scrollY;
+    document.body.style.top = '-' + savedScrollY + 'px';
+    document.documentElement.classList.add('mobile-nav-open');
+    document.body.classList.add('mobile-nav-open');
+  }
+
+  function unlockPageScroll() {
+    document.documentElement.classList.remove('mobile-nav-open');
+    document.body.classList.remove('mobile-nav-open');
+    document.body.style.top = '';
+    window.scrollTo(0, savedScrollY);
+  }
+
+  function finishMobileNavClose() {
+    if (!navCollapse) return;
+    mobileNavClosing = false;
+    navCollapse.classList.remove('show', 'is-visible');
+    unlockPageScroll();
+  }
+
+  function setMobileNavOpen(open, instant) {
+    if (!navCollapse || !navbar || !navToggler || !isMobileNav()) return;
+
+    if (open) {
+      if (mobileNavClosing) return;
+      navCollapse.classList.add('show');
+      navbar.classList.add('menu-open');
+      navToggler.setAttribute('aria-expanded', 'true');
+      lockPageScroll();
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          navCollapse.classList.add('is-visible');
+        });
+      });
+      return;
+    }
+
+    if (!navCollapse.classList.contains('is-visible') && !instant) return;
+
+    navCollapse.classList.remove('is-visible');
+    navbar.classList.remove('menu-open');
+    navToggler.setAttribute('aria-expanded', 'false');
+
+    if (instant) {
+      navCollapse.classList.remove('is-visible');
+      navbar.classList.remove('menu-open');
+      navToggler.setAttribute('aria-expanded', 'false');
+      finishMobileNavClose();
+      return;
+    }
+
+    mobileNavClosing = true;
+    var closed = false;
+    function onPanelTransitionEnd(e) {
+      if (closed || e.target !== navCollapse) return;
+      if (e.propertyName !== 'transform' && e.propertyName !== 'opacity') return;
+      closed = true;
+      navCollapse.removeEventListener('transitionend', onPanelTransitionEnd);
+      finishMobileNavClose();
+    }
+
+    navCollapse.addEventListener('transitionend', onPanelTransitionEnd);
+    window.setTimeout(function () {
+      if (!closed) {
+        closed = true;
+        navCollapse.removeEventListener('transitionend', onPanelTransitionEnd);
+        finishMobileNavClose();
+      }
+    }, 550);
+  }
+
+  if (navCollapse && navbar && navToggler) {
+    navToggler.addEventListener('click', function (e) {
+      if (!isMobileNav()) return;
+      e.preventDefault();
+      setMobileNavOpen(!navCollapse.classList.contains('is-visible'));
+    });
+
+    navbar.addEventListener('click', function (e) {
+      if (!navCollapse.classList.contains('is-visible')) return;
+      if (e.target.closest('.mobile-nav-panel')) return;
+      if (e.target.closest('.navbar-toggler')) return;
+      setMobileNavOpen(false);
+    });
+
+    mobileNavMq.addEventListener('change', function () {
+      if (mobileNavMq.matches) return;
+      mobileNavClosing = false;
+      navCollapse.classList.remove('show', 'is-visible');
+      navbar.classList.remove('menu-open');
+      navToggler.setAttribute('aria-expanded', 'false');
+      unlockPageScroll();
+    });
+  }
+
   /* -------- Smooth scroll + close mobile menu -------- */
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
@@ -53,10 +160,8 @@
       if (!target) return;
 
       e.preventDefault();
-      const navCollapse = document.getElementById('navbarNav');
-      if (navCollapse && navCollapse.classList.contains('show')) {
-        const bsCollapse = bootstrap.Collapse.getInstance(navCollapse);
-        if (bsCollapse) bsCollapse.hide();
+      if (navCollapse && navCollapse.classList.contains('is-visible')) {
+        setMobileNavOpen(false);
       }
       target.scrollIntoView({ behavior: 'smooth' });
     });
@@ -163,37 +268,66 @@
     });
   }
 
-  /* -------- Consultation form -------- */
-  const consultForm = document.getElementById('consultForm');
-  const consultSuccess = document.getElementById('consultSuccess');
-  if (consultForm) {
-    consultForm.addEventListener('submit', function (e) {
+  /* -------- Consultation forms -------- */
+  function initConsultForm(form) {
+    const successId = form.getAttribute('data-success-target');
+    const successEl = successId ? document.getElementById(successId) : null;
+    const modalEl = form.closest('.modal');
+
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
       e.stopPropagation();
 
-      if (!consultForm.checkValidity()) {
-        consultForm.classList.add('was-validated');
+      if (!form.checkValidity()) {
+        form.classList.add('was-validated');
         return;
       }
 
-      const submitBtn = consultForm.querySelector('button[type="submit"]');
+      const submitBtn = form.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
       submitBtn.disabled = true;
       submitBtn.innerHTML =
         '<span class="spinner-border spinner-border-sm ms-2"></span>در حال ارسال…';
 
       setTimeout(function () {
-        consultForm.reset();
-        consultForm.classList.remove('was-validated');
+        form.reset();
+        form.classList.remove('was-validated');
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
-        if (consultSuccess) {
-          consultSuccess.classList.remove('d-none');
+        if (successEl) {
+          successEl.classList.remove('d-none');
           setTimeout(function () {
-            consultSuccess.classList.add('d-none');
-          }, 6000);
+            successEl.classList.add('d-none');
+            if (modalEl) {
+              const bsModal = bootstrap.Modal.getInstance(modalEl);
+              if (bsModal) bsModal.hide();
+            }
+          }, 3500);
         }
       }, 1400);
+    });
+  }
+
+  document.querySelectorAll('.consult-form').forEach(initConsultForm);
+
+  document.querySelectorAll('[data-bs-target="#consultModal"]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (navCollapse && navCollapse.classList.contains('is-visible')) {
+        setMobileNavOpen(false);
+      }
+    });
+  });
+
+  const consultModal = document.getElementById('consultModal');
+  if (consultModal) {
+    consultModal.addEventListener('hidden.bs.modal', function () {
+      const form = document.getElementById('consultModalForm');
+      const success = document.getElementById('consultModalSuccess');
+      if (form) {
+        form.reset();
+        form.classList.remove('was-validated');
+      }
+      if (success) success.classList.add('d-none');
     });
   }
 })();
