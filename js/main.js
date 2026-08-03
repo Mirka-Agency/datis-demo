@@ -850,14 +850,55 @@
     }
 
     function bindMapPaths(svg) {
-      provincePaths = Array.prototype.slice.call(
+      const ns = 'http://www.w3.org/2000/svg';
+      const provinceEls = Array.prototype.slice.call(
         svg.querySelectorAll('[data-province]')
       );
+
+      // Decorative layers (water, labels) must never steal clicks.
+      const decorGroup = document.createElementNS(ns, 'g');
+      decorGroup.setAttribute('class', 'iran-map-decor');
+      decorGroup.setAttribute('pointer-events', 'none');
+
+      // Province hit layer: paint large shapes first, small ones last (on top).
+      const provinceGroup = document.createElementNS(ns, 'g');
+      provinceGroup.setAttribute('class', 'iran-provinces-hit');
+
+      const decorNodes = Array.prototype.slice.call(svg.children).filter(function (node) {
+        return (
+          node.nodeType === 1 &&
+          !node.hasAttribute('data-province') &&
+          !node.querySelector('[data-province]')
+        );
+      });
+
+      provinceEls.sort(function (a, b) {
+        try {
+          const ba = a.getBBox();
+          const bb = b.getBBox();
+          return bb.width * bb.height - ba.width * ba.height;
+        } catch (err) {
+          return 0;
+        }
+      });
+
+      provinceEls.forEach(function (el) {
+        provinceGroup.appendChild(el);
+      });
+      decorNodes.forEach(function (el) {
+        decorGroup.appendChild(el);
+      });
+
+      svg.appendChild(provinceGroup);
+      svg.appendChild(decorGroup);
+
+      provincePaths = provinceEls;
       provincePaths.forEach(function (path) {
         const name = path.getAttribute('data-province');
         if (!path.classList.contains('iran-province')) {
           path.classList.add('iran-province');
         }
+        path.style.pointerEvents = 'auto';
         path.setAttribute('role', 'button');
         path.setAttribute('tabindex', '0');
         path.setAttribute('aria-label', 'استان ' + name);

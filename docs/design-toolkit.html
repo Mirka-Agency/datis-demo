@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="robots" content="noindex, nofollow" />
+		<title>کیت طراحی داتیس — Design Toolkit</title>
+		<link rel="icon" type="image/png" href="../assets/img/fav.png" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<style>
+			body.toolkit-page {
+				background: #f7faf5;
+			}
+
+			.tk-top {
+				position: sticky;
+				top: 0;
+				z-index: 1040;
+				background: rgba(255, 255, 255, 0.96);
+				border-bottom: 1px solid var(--border-soft);
+				backdrop-filter: blur(8px);
+				padding: 0.85rem 0;
+			}
+
+			.tk-top-inner {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: space-between;
+				gap: 0.75rem;
+			}
+
+			.tk-top h1 {
+				margin: 0;
+				font-size: 1.05rem;
+				font-weight: 800;
+				color: var(--color-dark);
+			}
+
+			.tk-top p {
+				margin: 0;
+				font-size: 0.82rem;
+				color: var(--text-muted);
+			}
+
+			.tk-nav {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.35rem;
+				max-width: 42rem;
+				justify-content: flex-end;
+			}
+
+			.tk-nav a {
+				font-size: 0.75rem;
+				font-weight: 700;
+				text-decoration: none;
+				color: var(--color-primary-hover);
+				background: var(--bg-soft);
+				padding: 0.2rem 0.55rem;
+				border-radius: var(--radius-pill);
+			}
+
+			.tk-nav a:hover {
+				background: rgba(67, 154, 13, 0.2);
+			}
+
+			.tk-section {
+				padding: 2.5rem 0;
+				border-bottom: 1px solid var(--border-soft);
+			}
+
+			.tk-section:last-of-type {
+				border-bottom: 0;
+			}
+
+			.tk-section-head {
+				margin-bottom: 1.35rem;
+			}
+
+			.tk-section-head h2 {
+				font-size: 1.25rem;
+				font-weight: 800;
+				color: var(--color-dark);
+				margin: 0 0 0.35rem;
+			}
+
+			.tk-section-head p {
+				margin: 0;
+				color: var(--text-muted);
+				font-size: 0.9rem;
+			}
+
+			.tk-swatch-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+				gap: 0.85rem;
+			}
+
+			.tk-swatch {
+				border: 1px solid var(--border-soft);
+				border-radius: var(--radius);
+				overflow: hidden;
+				background: #fff;
+			}
+
+			.tk-swatch-color {
+				height: 72px;
+			}
+
+			.tk-swatch-meta {
+				padding: 0.65rem 0.75rem;
+				font-size: 0.78rem;
+			}
+
+			.tk-swatch-meta strong {
+				display: block;
+				color: var(--color-dark);
+				margin-bottom: 0.15rem;
+			}
+
+			.tk-swatch-meta code {
+				direction: ltr;
+				font-size: 0.72rem;
+				color: var(--text-muted);
+			}
+
+			.tk-panel {
+				background: #fff;
+				border: 1px solid var(--border-soft);
+				border-radius: var(--radius-lg);
+				padding: 1.25rem 1.35rem;
+				box-shadow: var(--shadow-sm);
+			}
+
+			.tk-panel + .tk-panel {
+				margin-top: 1rem;
+			}
+
+			.tk-label {
+				font-size: 0.78rem;
+				font-weight: 800;
+				color: var(--text-muted);
+				margin-bottom: 0.75rem;
+			}
+
+			.tk-row {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.65rem;
+				align-items: center;
+			}
+
+			.tk-token {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.45rem;
+				padding: 0.55rem 0.85rem;
+				background: #fff;
+				border: 1px solid var(--border-soft);
+				border-radius: var(--radius-sm);
+				font-size: 0.82rem;
+			}
+
+			.tk-token i {
+				width: 1.6rem;
+				height: 1.6rem;
+				border-radius: 8px;
+				background: var(--bg-soft);
+				border: 1px solid var(--border-soft);
+			}
+
+			.tk-token--sm i {
+				border-radius: 6px;
+			}
+
+			.tk-token--lg i {
+				border-radius: 14px;
+			}
+
+			.tk-token--pill i {
+				border-radius: 999px;
+			}
+
+			.tk-demo-dark {
+				background: linear-gradient(120deg, var(--color-primary), var(--color-primary-hover));
+				border-radius: var(--radius-lg);
+				padding: 1.25rem;
+			}
+
+			.tk-foot {
+				text-align: center;
+				color: var(--text-muted);
+				font-size: 0.85rem;
+				padding: 1.5rem 0 2.5rem;
+			}
+
+			.tk-intro {
+				background: #fff;
+				border: 1px solid var(--border-soft);
+				border-radius: var(--radius);
+				padding: 1rem 1.15rem;
+				margin: 1.25rem 0 0.5rem;
+			}
+		</style>
+	</head>
+	<body class="toolkit-page">
+		<header class="tk-top">
+			<div class="container tk-top-inner">
+				<div>
+					<h1>کیت طراحی داتیس</h1>
+					<p>مرجع بصری المان‌های سایت — برای طراح و فرانت‌اند</p>
+				</div>
+				<nav class="tk-nav" aria-label="فهرست کیت">
+					<a href="#colors">رنگ</a>
+					<a href="#type">تایپ</a>
+					<a href="#buttons">دکمه</a>
+					<a href="#forms">فرم</a>
+					<a href="#chips">چیپ</a>
+					<a href="#cards">کارت</a>
+					<a href="#feedback">بازخورد</a>
+					<a href="#nav">ناوبری</a>
+					<a href="#content">محتوا</a>
+					<a href="#sections">سکشن</a>
+					<a href="#tokens">توکن</a>
+				</nav>
+			</div>
+		</header>
+
+		<main class="container pb-4">
+			<div class="tk-intro">
+				<strong>نحوه استفاده:</strong>
+				این صفحه فقط نمایش المان‌های موجود در
+				<code>css/style.css</code>
+				و الگوی HTML سایت است. برای صفحات عمومی استفاده نشود
+				(<code>noindex</code>).
+			</div>
+
+			<!-- Colors -->
+			<section class="tk-section" id="colors">
+				<div class="tk-section-head">
+					<h2>۱) پالت رنگ</h2>
+					<p>متغیرهای برند در <code>:root</code></p>
+				</div>
+				<div class="tk-swatch-grid">
+					<div class="tk-swatch">
+						<div class="tk-swatch-color" style="background: #439a0d"></div>
+						<div class="tk-swatch-meta"><strong>Primary</strong><code>--color-primary</code></div>
+					</div>
+					<div class="tk-swatch">
+						<div class="tk-swatch-color" style="background: #18642e"></div>
+						<div class="tk-swatch-meta"><strong>Primary Hover</strong><code>--color-primary-hover</code></div>
+					</div>
+					<div class="tk-swatch">
+						<div class="tk-swatch-color" style="background: #42990e"></div>
+						<div class="tk-swatch-meta"><strong>Accent</strong><code>--color-accent</code></div>
+					</div>
+					<div class="tk-swatch">
+						<div class="tk-swatch-color" style="background: #082f12"></div>
+						<div class="tk-swatch-meta"><strong>Dark</strong><code>--color-dark</code></div>
+					</div>
+					<div class="tk-swatch">
+						<div class="tk-swatch-color" style="background: #33413a"></div>
+						<div class="tk-swatch-meta"><strong>Text Body</strong><code>--text-body</code></div>
+					</div>
+					<div class="tk-swatch">
+						<div class="tk-swatch-color" style="background: #6b7d72"></div>
+						<div class="tk-swatch-meta"><strong>Text Muted</strong><code>--text-muted</code></div>
+					</div>
+					<div class="tk-swatch">
+						<div class="tk-swatch-color" style="background: #f4faf0"></div>
+						<div class="tk-swatch-meta"><strong>BG Light</strong><code>--bg-light</code></div>
+					</div>
+					<div class="tk-swatch">
+						<div class="tk-swatch-color" style="background: #eef7e7"></div>
+						<div class="tk-swatch-meta"><strong>BG Soft</strong><code>--bg-soft</code></div>
+					</div>
+					<div class="tk-swatch">
+						<div class="tk-swatch-color" style="background: #e4efe0; border-bottom: 1px solid #d0dfc8"></div>
+						<div class="tk-swatch-meta"><strong>Border Soft</strong><code>--border-soft</code></div>
+					</div>
+					<div class="tk-swatch">
+						<div class="tk-swatch-color" style="background: #fff; border-bottom: 1px solid #e4efe0"></div>
+						<div class="tk-swatch-meta"><strong>White</strong><code>--white</code></div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Typography -->
+			<section class="tk-section" id="type">
+				<div class="tk-section-head">
+					<h2>۲) تایپوگرافی</h2>
+					<p>فونت پیش‌فرض: Vazirmatn · اعداد UI فارسی</p>
+				</div>
+				<div class="tk-panel">
+					<span class="eyebrow">برچسب بخش</span>
+					<div class="section-head mb-0">
+						<h3 class="section-title">عنوان بخش اصلی</h3>
+						<p class="section-desc mb-0">توضیح کوتاه بخش برای معرفی محتوا و هدایت کاربر.</p>
+					</div>
+					<hr class="my-4" />
+					<h1 class="h1">عنوان H1 — ۱۲۳۴۵۶۷۸۹۰</h1>
+					<h2 class="h2">عنوان H2</h2>
+					<h3 class="h3">عنوان H3</h3>
+					<h4 class="h4">عنوان H4</h4>
+					<p>پاراگراف بدنه با رنگ <code>--text-body</code> و ارتفاع خط ۱٫۹ برای خوانایی فارسی.</p>
+					<p class="text-muted mb-0">متن muted برای متا و راهنما.</p>
+					<p class="content-meta mt-3 mb-0">
+						<span>۱۶ تیر</span><span>اخبار</span><span class="blog-read-time"><i class="bi bi-clock"></i> ۴ دقیقه</span>
+					</p>
+				</div>
+			</section>
+
+			<!-- Buttons -->
+			<section class="tk-section" id="buttons">
+				<div class="tk-section-head">
+					<h2>۳) دکمه‌ها</h2>
+					<p>کنتراست متن روی primary باید سفید بماند</p>
+				</div>
+				<div class="tk-panel">
+					<p class="tk-label">Primary / Outline / Sizes</p>
+					<div class="tk-row mb-3">
+						<button type="button" class="btn btn-primary rounded-pill">دکمه اصلی</button>
+						<button type="button" class="btn btn-outline-primary rounded-pill">دکمه Outline</button>
+						<button type="button" class="btn btn-primary btn-sm rounded-pill">کوچک</button>
+						<button type="button" class="btn btn-outline-primary btn-sm rounded-pill">کوچک Outline</button>
+						<a href="#" class="btn btn-primary rounded-pill"><i class="bi bi-headset me-1"></i>لینک دکمه‌ای</a>
+					</div>
+					<p class="tk-label">روی پس‌زمینه تیره</p>
+					<div class="tk-demo-dark tk-row">
+						<a href="#" class="btn btn-light rounded-pill">دکمه روشن</a>
+						<a href="#" class="btn btn-outline-light rounded-pill">Outline روشن</a>
+					</div>
+					<p class="tk-label mt-3">لینک محصول</p>
+					<a href="#" class="product-link">جزئیات محصول <i class="bi bi-arrow-left"></i></a>
+				</div>
+			</section>
+
+			<!-- Forms -->
+			<section class="tk-section" id="forms">
+				<div class="tk-section-head">
+					<h2>۴) فرم‌ها</h2>
+					<p>اعتبارسنجی Bootstrap + استایل داتیس</p>
+				</div>
+				<div class="row g-4">
+					<div class="col-lg-7">
+						<div class="tk-panel">
+							<form class="consult-form was-validated" onsubmit="return false;">
+								<div class="row g-3">
+									<div class="col-md-6">
+										<label class="form-label" for="tkName">نام</label>
+										<input class="form-control" id="tkName" required value="کاربر نمونه" />
+										<div class="valid-feedback">معتبر است.</div>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label" for="tkPhone">تلفن</label>
+										<input class="form-control" id="tkPhone" required placeholder="۰۹۱۲…" />
+										<div class="invalid-feedback">شماره را وارد کنید.</div>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label" for="tkSelect">موضوع</label>
+										<select class="form-select" id="tkSelect">
+											<option>مشاوره فنی</option>
+											<option>فروش</option>
+										</select>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label" for="tkSearch">جستجو</label>
+										<input class="form-control" id="tkSearch" type="search" placeholder="نام محصول…" />
+									</div>
+									<div class="col-12">
+										<label class="form-label" for="tkMsg">پیام</label>
+										<textarea class="form-control" id="tkMsg" rows="3" placeholder="توضیح…"></textarea>
+									</div>
+									<div class="col-12">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="tkCheck" checked />
+											<label class="form-check-label" for="tkCheck">موافقم با تماس پشتیبانی</label>
+										</div>
+									</div>
+									<div class="col-12">
+										<button type="submit" class="btn btn-primary rounded-pill px-4">ارسال نمونه</button>
+									</div>
+								</div>
+							</form>
+							<div class="cta-success mt-3" role="alert">
+								<i class="bi bi-check-circle"></i> پیام موفقیت نمونه
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-5">
+						<div class="tk-panel">
+							<p class="tk-label">خبرنامه فوتر</p>
+							<form class="newsletter" onsubmit="return false;">
+								<div class="newsletter-group">
+									<input type="email" class="form-control" placeholder="ایمیل شما" aria-label="ایمیل" />
+									<button class="btn btn-primary" type="submit">عضویت</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Chips / badges -->
+			<section class="tk-section" id="chips">
+				<div class="tk-section-head">
+					<h2>۵) چیپ، بج و برچسب</h2>
+					<p>explore chips · product tags · category pill</p>
+				</div>
+				<div class="tk-panel mb-3">
+					<p class="tk-label">Chip grid</p>
+					<div class="chip-grid">
+						<a href="#" class="chip">
+							<span class="chip-img"><img src="../assets/img/crop-tomato.png" alt="" loading="lazy" /></span>
+							<span class="chip-label">گوجه‌فرنگی</span>
+						</a>
+						<a href="#" class="chip">
+							<span class="chip-img"><img src="../assets/img/crop-cucumber.png" alt="" loading="lazy" /></span>
+							<span class="chip-label">خیار</span>
+						</a>
+						<a href="#" class="chip">
+							<span class="chip-img"><img src="../assets/img/method-nutrigation.png" alt="" loading="lazy" /></span>
+							<span class="chip-label">کودآبیاری</span>
+						</a>
+					</div>
+				</div>
+				<div class="tk-panel">
+					<div class="tk-row">
+						<span class="eyebrow mb-0">Eyebrow</span>
+						<span class="eyebrow-light mb-0">Eyebrow Light</span>
+						<span class="blog-category-pill">دسته بلاگ</span>
+						<span class="product-tag" style="position: static">پرفروش</span>
+						<span class="event-tag">نمایشگاه</span>
+						<span class="learn-type">ویدیو</span>
+						<span class="learn-cat">روش کشت</span>
+						<span class="badge text-bg-light">Bootstrap badge</span>
+					</div>
+					<div class="tag-cloud mt-3 mb-0">
+						<a href="#">کود محلول</a>
+						<a href="#">گلخانه</a>
+						<a href="#">کودآبیاری</a>
+					</div>
+				</div>
+			</section>
+
+			<!-- Cards -->
+			<section class="tk-section" id="cards">
+				<div class="tk-section-head">
+					<h2>۶) کارت‌ها</h2>
+					<p>محصول · بلاگ · دانش · رویداد</p>
+				</div>
+				<div class="row g-4">
+					<div class="col-md-6 col-xl-3">
+						<article class="product-card">
+							<div class="product-media">
+								<span class="product-tag">پرفروش</span>
+								<img src="../assets/img/prod-potassium.png" alt="پتاسیم نیترات" loading="lazy" />
+							</div>
+							<div class="product-body">
+								<h3 class="h5">پتاسیم نیترات محلول</h3>
+								<p>کود کاملاً محلول برای کوددهی قطره‌ای.</p>
+								<a href="#" class="product-link">جزئیات محصول <i class="bi bi-arrow-left"></i></a>
+							</div>
+						</article>
+					</div>
+					<div class="col-md-6 col-xl-3">
+						<article class="blog-card">
+							<a href="#" class="blog-card-media">
+								<img src="../assets/img/illustrations/lab-quality.jpg" alt="" loading="lazy" width="640" height="360" />
+							</a>
+							<div class="blog-card-body">
+								<span class="content-meta"><span>۱۶ تیر</span><span>اخبار</span></span>
+								<h3 class="h5">عنوان مطلب بلاگ</h3>
+								<p>خلاصه کوتاه خبر یا مقاله.</p>
+								<a href="#" class="product-link">ادامه مطلب <i class="bi bi-arrow-left"></i></a>
+							</div>
+						</article>
+					</div>
+					<div class="col-md-6 col-xl-3">
+						<article class="knowledge-card">
+							<a href="#" class="knowledge-card-media">
+								<img src="../assets/img/illustrations/irrigation.jpg" alt="" loading="lazy" width="640" height="360" />
+							</a>
+							<div class="knowledge-card-body">
+								<span class="content-meta"><span>آموزش</span><span>قطره‌ای</span></span>
+								<h3 class="h5">کودآبیاری قطره‌ای</h3>
+								<p>راهنمای کوتاه تغذیه دقیق.</p>
+								<a href="#" class="product-link">مطالعه <i class="bi bi-arrow-left"></i></a>
+							</div>
+						</article>
+					</div>
+					<div class="col-md-6 col-xl-3">
+						<article class="event-card event-card--with-image">
+							<a href="#" class="event-card-media">
+								<img src="../assets/img/illustrations/orchard.jpg" alt="" loading="lazy" width="640" height="360" />
+								<div class="event-date"><span class="day">۲۲</span><span class="month">تیر</span></div>
+							</a>
+							<div class="event-body">
+								<span class="event-tag">نمایشگاه</span>
+								<h5>نمایشگاه کشاورزی تهران</h5>
+								<p>معرفی راهکارهای تغذیه گیاهی.</p>
+								<a href="#" class="product-link">جزئیات <i class="bi bi-arrow-left"></i></a>
+							</div>
+						</article>
+					</div>
+				</div>
+
+				<div class="row g-4 mt-1">
+					<div class="col-md-6">
+						<div class="content-card">
+							<div class="ratio ratio-16x9 mb-3 bg-light rounded d-flex align-items-center justify-content-center">
+								<i class="bi bi-play-circle display-4 text-primary"></i>
+							</div>
+							<h5>کارت محتوا / ویدیو</h5>
+							<p class="mb-0">برای بلوک‌های آموزشی کوتاه.</p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="download-row">
+							<div><strong>پتاسیم نیترات — TDS</strong><div class="small text-muted">برگه فنی PDF</div></div>
+							<a class="btn btn-sm btn-outline-primary rounded-pill" href="#">دانلود</a>
+						</div>
+						<div class="download-row mb-0">
+							<div><strong>کاتالوگ ۱۴۰۴</strong><div class="small text-muted">فهرست محصولات</div></div>
+							<a class="btn btn-sm btn-primary rounded-pill" href="#">مشاهده</a>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Feedback -->
+			<section class="tk-section" id="feedback">
+				<div class="tk-section-head">
+					<h2>۷) بازخورد و نکات</h2>
+					<p>callout · quote · warning · empty · pagination</p>
+				</div>
+				<div class="row g-4">
+					<div class="col-lg-6">
+						<div class="blog-callout">
+							<strong>نکته کاربردی:</strong>
+							قبل از تغییر برنامه تغذیه، کیفیت آب را بررسی کنید.
+						</div>
+						<blockquote class="blog-quote">
+							<p>هدف ما پاسخ قابل‌اتکا به برنامه تغذیه مشتریان است.</p>
+							<footer>— تیم تولید داتیس</footer>
+						</blockquote>
+						<div class="blog-mod-warning" style="margin:0;padding:1rem 1.15rem;background:#fff8f0;border:1px solid #f0d2a8;border-radius:18px;color:#5a3d12;line-height:1.85;">
+							<strong>⚠ توجه ایمنی:</strong> برگه SDS را قبل از مصرف بخوانید.
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="tk-panel">
+							<p class="products-empty text-muted mb-3">نتیجه‌ای با این فیلتر یافت نشد.</p>
+							<p class="products-result-count">نمایش ۱ تا ۶ از ۱۲ محصول</p>
+							<nav class="products-pagination" aria-label="صفحه‌بندی نمونه">
+								<button type="button" class="page-btn" disabled>قبلی</button>
+								<button type="button" class="page-btn is-active">۱</button>
+								<button type="button" class="page-btn">۲</button>
+								<button type="button" class="page-btn">بعدی</button>
+							</nav>
+							<ul class="info-list mt-4 mb-0">
+								<li><i class="bi bi-check-circle-fill"></i><span>آیتم لیست اطلاعاتی</span></li>
+								<li><i class="bi bi-check-circle-fill"></i><span>آیتم دوم با آیکون تایید</span></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Nav patterns -->
+			<section class="tk-section" id="nav">
+				<div class="tk-section-head">
+					<h2>۸) ناوبری و مسیر صفحه</h2>
+					<p>breadcrumb · toc · social · tabs</p>
+				</div>
+				<div class="tk-panel mb-3">
+					<ol class="breadcrumb-nav mb-0">
+						<li><a href="#">خانه</a></li>
+						<li class="sep" aria-hidden="true">/</li>
+						<li><a href="#">محصولات</a></li>
+						<li class="sep" aria-hidden="true">/</li>
+						<li aria-current="page">جزئیات</li>
+					</ol>
+				</div>
+				<div class="row g-4">
+					<div class="col-md-4">
+						<div class="sidebar-widget mb-0">
+							<h3>فهرست مطالب</h3>
+							<ul class="toc-list mb-0">
+								<li><a href="#">مقدمه</a></li>
+								<li><a href="#">مشخصات</a></li>
+								<li><a href="#">دانلودها</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="sidebar-widget mb-0">
+							<h3>شبکه‌ها</h3>
+							<div class="social-grid">
+								<a href="#" class="social-tile"><i class="bi bi-telegram"></i><span>تلگرام</span></a>
+								<a href="#" class="social-tile"><i class="bi bi-instagram"></i><span>اینستاگرام</span></a>
+								<a href="#" class="social-tile"><i class="bi bi-linkedin"></i><span>لینکدین</span></a>
+								<a href="#" class="social-tile"><i class="bi bi-play-btn"></i><span>آپارات</span></a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="tk-panel h-100">
+							<p class="tk-label">پیل تب‌ها (محصول)</p>
+							<ul class="nav nav-pills product-tabs mb-0">
+								<li class="nav-item"><button class="nav-link active" type="button">مشخصات</button></li>
+								<li class="nav-item"><button class="nav-link" type="button">کاربرد</button></li>
+								<li class="nav-item"><button class="nav-link" type="button">ایمنی</button></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Content modules -->
+			<section class="tk-section" id="content">
+				<div class="tk-section-head">
+					<h2>۹) ماژول‌های محتوا</h2>
+					<p>جدول مشخصات · FAQ · نظرات · تماس کانال</p>
+				</div>
+				<div class="row g-4">
+					<div class="col-lg-6">
+						<div class="tk-panel">
+							<table class="spec-table mb-0">
+								<tbody>
+									<tr><th>فرمول</th><td>KNO₃</td></tr>
+									<tr><th>نیتروژن (N)</th><td>۱۳٪</td></tr>
+									<tr><th>پتاسیم (K₂O)</th><td>۴۶٪</td></tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="contact-channel mt-3" style="background:var(--bg-light)">
+							<span class="contact-channel-icon"><i class="bi bi-telephone"></i></span>
+							<span class="contact-channel-body">
+								<span class="contact-channel-label">تلفن</span>
+								<span class="contact-channel-value">۰۲۱-۲۶۲۱۰۱۲۱</span>
+							</span>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="accordion faq-accordion" id="tkFaq">
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tkF1">نمونه سوال متداول؟</button>
+								</h2>
+								<div id="tkF1" class="accordion-collapse collapse show" data-bs-parent="#tkFaq">
+									<div class="accordion-body">پاسخ کوتاه با لینک به <a href="#">صفحه مرتبط</a>.</div>
+								</div>
+							</div>
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tkF2">سوال جمع‌شده</button>
+								</h2>
+								<div id="tkF2" class="accordion-collapse collapse" data-bs-parent="#tkFaq">
+									<div class="accordion-body">متن پاسخ.</div>
+								</div>
+							</div>
+						</div>
+						<ul class="blog-comment-list mt-3 mb-0">
+							<li class="blog-comment">
+								<div class="blog-comment-avatar" aria-hidden="true">ع‌ن</div>
+								<div class="blog-comment-body">
+									<div class="blog-comment-meta"><strong>علی نوری</strong><time>۲۲ خرداد</time></div>
+									<p class="mb-0">نمونه دیدگاه کاربر.</p>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+			<!-- Larger sections -->
+			<section class="tk-section" id="sections">
+				<div class="tk-section-head">
+					<h2>۱۰) بلوک‌های صفحه‌ای</h2>
+					<p>CTA · SEO category · stats · quick facts</p>
+				</div>
+
+				<div class="cta-box mb-4">
+					<span class="cta-eyebrow"><i class="bi bi-headset"></i> مشاوره رایگان</span>
+					<h3>برای برنامه تغذیه کمک می‌خواهید؟</h3>
+					<p>کارشناسان داتیس همراه شما هستند.</p>
+					<ul class="cta-points mb-3">
+						<li><i class="bi bi-check-circle-fill"></i>پاسخ سریع در روزهای کاری</li>
+						<li><i class="bi bi-check-circle-fill"></i>پیشنهاد بر اساس نوع کشت</li>
+					</ul>
+					<a href="#" class="btn btn-light rounded-pill">دریافت مشاوره</a>
+				</div>
+
+				<div class="row g-4 mb-4">
+					<div class="col-lg-7">
+						<article class="category-seo-box h-100">
+							<span class="eyebrow">خانواده محصول</span>
+							<h3 class="h5">کودهای کاملاً محلول</h3>
+							<p class="mb-2">متن SEO معرفی دسته برای موتور جستجو و کاربر.</p>
+							<ul class="category-seo-points">
+								<li><i class="bi bi-check-circle-fill"></i>نکته اول</li>
+								<li><i class="bi bi-check-circle-fill"></i>نکته دوم</li>
+							</ul>
+							<a href="#" class="btn btn-primary btn-sm rounded-pill mt-2">مشاهده محصولات</a>
+						</article>
+					</div>
+					<div class="col-lg-5">
+						<aside class="category-side-panel h-100">
+							<div class="category-side-media">
+								<img src="../assets/img/illustrations/irrigation.jpg" alt="" loading="lazy" />
+							</div>
+							<div class="category-side-body">
+								<span class="eyebrow mb-2">راهنمای سریع</span>
+								<h3 class="h6">برای انتخاب بهتر</h3>
+								<ul class="category-side-facts">
+									<li><span class="category-side-fact-value">۸+</span><span class="category-side-fact-label">فرمولاسیون</span></li>
+									<li><span class="category-side-fact-value">TDS</span><span class="category-side-fact-label">برگه فنی</span></li>
+									<li><span class="category-side-fact-value">گلخانه</span><span class="category-side-fact-label">قطره‌ای</span></li>
+								</ul>
+								<a href="#" class="category-side-link"><i class="bi bi-download"></i><span>دانلود کاتالوگ</span></a>
+							</div>
+						</aside>
+					</div>
+				</div>
+
+				<div class="tk-panel">
+					<p class="tk-label">Product quick facts</p>
+					<div class="product-quick-facts">
+						<div class="product-fact"><span class="product-fact-value">KNO₃</span><span class="product-fact-label">فرمول</span></div>
+						<div class="product-fact"><span class="product-fact-value">۱۳٪</span><span class="product-fact-label">نیتروژن</span></div>
+						<div class="product-fact"><span class="product-fact-value">۴۶٪</span><span class="product-fact-label">پتاسیم</span></div>
+						<div class="product-fact"><span class="product-fact-value">۱۰۰٪</span><span class="product-fact-label">حلالیت</span></div>
+					</div>
+					<p class="tk-label mt-3">Pack chips</p>
+					<div class="product-pack-sizes">
+						<span class="product-pack-label">بسته‌بندی:</span>
+						<button type="button" class="product-pack-chip is-active">۲۵ کیلوگرم</button>
+						<button type="button" class="product-pack-chip">بیگ‌بگ ۱ تن</button>
+					</div>
+				</div>
+			</section>
+
+			<!-- Tokens -->
+			<section class="tk-section" id="tokens">
+				<div class="tk-section-head">
+					<h2>۱۱) توکن‌های شعاع و سایه</h2>
+					<p>radius و shadow برای هماهنگی UI</p>
+				</div>
+				<div class="tk-row">
+					<span class="tk-token tk-token--sm"><i style="background:#fff"></i><code>--radius-sm · ۱۲px</code></span>
+					<span class="tk-token"><i style="background:#fff"></i><code>--radius · ۱۸px</code></span>
+					<span class="tk-token tk-token--lg"><i style="background:#fff"></i><code>--radius-lg · ۲۸px</code></span>
+					<span class="tk-token tk-token--pill"><i style="background:#fff"></i><code>--radius-pill</code></span>
+				</div>
+				<div class="tk-row mt-3">
+					<span class="tk-token" style="box-shadow: var(--shadow-sm)"><code>--shadow-sm</code></span>
+					<span class="tk-token" style="box-shadow: var(--shadow)"><code>--shadow</code></span>
+					<span class="tk-token" style="box-shadow: var(--shadow-lg)"><code>--shadow-lg</code></span>
+				</div>
+				<div class="tk-panel mt-4">
+					<p class="tk-label">آیکون‌ها — Bootstrap Icons</p>
+					<div class="tk-row" style="font-size: 1.35rem; color: var(--color-primary)">
+						<i class="bi bi-box-seam" title="box"></i>
+						<i class="bi bi-headset" title="consult"></i>
+						<i class="bi bi-geo-alt" title="map"></i>
+						<i class="bi bi-download" title="download"></i>
+						<i class="bi bi-play-circle" title="video"></i>
+						<i class="bi bi-check-circle-fill" title="check"></i>
+						<i class="bi bi-arrow-left" title="arrow"></i>
+						<i class="bi bi-telephone" title="phone"></i>
+					</div>
+				</div>
+			</section>
+
+			<p class="tk-foot">
+				کیت طراحی داخلی داتیس · مرتبط:
+				<a href="blog-modules-helper.html">ماژول‌های بلاگ</a>
+				·
+				<a href="../index.html">صفحه اصلی سایت</a>
+			</p>
+		</main>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	</body>
+</html>
