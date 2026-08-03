@@ -17,9 +17,13 @@ alwaysApply: true
 ## ساختار فایل‌ها
 
 ```
-index.html          # صفحه اصلی
-css/style.css       # استایل‌های سفارشی
-js/main.js          # اسکریپت‌های سفارشی
+index.html                 # صفحه اصلی
+*.html                     # همه صفحات در ریشه (flat)
+css/style.css              # استایل‌های سفارشی (+ page-hero)
+js/main.js                 # اسکریپت‌های سفارشی
+assets/                    # تصاویر، ویدیو، کاتالوگ PDF
+docs/suggested-pages.md    # فهرست صفحات و اولویت‌ها
+scripts/generate-pages.mjs # تولیدکننده اختیاری صفحات استاتیک
 ```
 
 ## Bootstrap 5

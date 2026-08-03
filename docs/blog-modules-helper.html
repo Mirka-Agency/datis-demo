@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="robots" content="noindex, nofollow" />
+		<title>ماژول‌های بلاگ داتیس — ابزار کپی برای ادیتور</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+		<style>
+			:root {
+				--color-primary: #439a0d;
+				--color-dark: #082f12;
+				--color-primary-hover: #18642e;
+				--bg-light: #f4faf0;
+				--bg-soft: #e8f5e0;
+				--border-soft: #d7e8cc;
+				--text-body: #33413a;
+				--text-muted: #6b7d72;
+				--radius: 18px;
+				--radius-sm: 12px;
+				--radius-lg: 28px;
+				--radius-pill: 999px;
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				margin: 0;
+				font-family: Vazirmatn, Tahoma, sans-serif;
+				background: linear-gradient(180deg, var(--bg-light) 0%, #fff 40%);
+				color: var(--color-dark);
+				line-height: 1.8;
+			}
+
+			.helper-top {
+				position: sticky;
+				top: 0;
+				z-index: 20;
+				background: rgba(255, 255, 255, 0.96);
+				border-bottom: 1px solid var(--border-soft);
+				backdrop-filter: blur(8px);
+				padding: 0.85rem 0;
+			}
+
+			.helper-top-inner {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: space-between;
+				gap: 0.75rem;
+			}
+
+			.helper-top h1 {
+				font-size: 1.05rem;
+				font-weight: 800;
+				margin: 0;
+			}
+
+			.helper-top p {
+				margin: 0;
+				font-size: 0.85rem;
+				color: var(--text-muted);
+			}
+
+			.helper-nav {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.35rem;
+			}
+
+			.helper-nav a {
+				font-size: 0.78rem;
+				font-weight: 700;
+				text-decoration: none;
+				color: var(--color-primary-hover);
+				background: var(--bg-soft);
+				padding: 0.2rem 0.55rem;
+				border-radius: var(--radius-pill);
+			}
+
+			.helper-nav a:hover {
+				background: rgba(67, 154, 13, 0.2);
+			}
+
+			.helper-intro {
+				max-width: 52rem;
+				margin: 1.5rem auto 0.5rem;
+				padding: 1rem 1.15rem;
+				background: #fff;
+				border: 1px solid var(--border-soft);
+				border-radius: var(--radius);
+			}
+
+			.helper-intro ol {
+				margin: 0.5rem 0 0;
+				padding-right: 1.25rem;
+			}
+
+			.mod {
+				background: #fff;
+				border: 1px solid var(--border-soft);
+				border-radius: var(--radius-lg);
+				padding: 1.25rem 1.35rem 1.5rem;
+				margin: 1.5rem 0;
+				box-shadow: 0 8px 24px rgba(8, 47, 18, 0.05);
+			}
+
+			.mod-head {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: baseline;
+				justify-content: space-between;
+				gap: 0.5rem;
+				margin-bottom: 1rem;
+				padding-bottom: 0.75rem;
+				border-bottom: 1px solid var(--border-soft);
+			}
+
+			.mod-head h2 {
+				font-size: 1.1rem;
+				font-weight: 800;
+				margin: 0;
+			}
+
+			.mod-badge {
+				font-size: 0.75rem;
+				font-weight: 700;
+				color: var(--color-primary-hover);
+				background: var(--bg-soft);
+				padding: 0.2rem 0.65rem;
+				border-radius: var(--radius-pill);
+			}
+
+			.mod-label {
+				font-size: 0.8rem;
+				font-weight: 800;
+				color: var(--text-muted);
+				text-transform: uppercase;
+				letter-spacing: 0.02em;
+				margin: 0 0 0.55rem;
+			}
+
+			.mod-preview {
+				background: var(--bg-light);
+				border: 1px dashed var(--border-soft);
+				border-radius: var(--radius);
+				padding: 1.15rem;
+				margin-bottom: 1.15rem;
+			}
+
+			.mod-settings {
+				display: grid;
+				grid-template-columns: 1fr;
+				gap: 0.75rem;
+				margin-bottom: 1rem;
+			}
+
+			@media (min-width: 768px) {
+				.mod-settings {
+					grid-template-columns: 1fr 1fr;
+				}
+
+				.mod-settings .span-2 {
+					grid-column: 1 / -1;
+				}
+			}
+
+			.mod-settings label {
+				display: block;
+				font-size: 0.82rem;
+				font-weight: 700;
+				margin-bottom: 0.25rem;
+			}
+
+			.mod-settings .form-control,
+			.mod-settings .form-select {
+				border-radius: var(--radius-sm);
+				border-color: var(--border-soft);
+				font-size: 0.9rem;
+			}
+
+			.mod-actions {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 0.65rem;
+			}
+
+			.mod-actions .btn {
+				font-weight: 700;
+			}
+
+			.copy-feedback {
+				font-size: 0.85rem;
+				font-weight: 700;
+				color: var(--color-primary);
+				opacity: 0;
+				transition: opacity 0.2s ease;
+			}
+
+			.copy-feedback.is-on {
+				opacity: 1;
+			}
+
+			.mod-code {
+				margin-top: 0.85rem;
+				width: 100%;
+				min-height: 7rem;
+				font-family: Consolas, "Courier New", monospace;
+				font-size: 0.78rem;
+				direction: ltr;
+				text-align: left;
+				border-radius: var(--radius-sm);
+				border: 1px solid var(--border-soft);
+				background: #fafcfa;
+				padding: 0.75rem;
+				resize: vertical;
+			}
+
+			.helper-foot {
+				text-align: center;
+				color: var(--text-muted);
+				font-size: 0.85rem;
+				padding: 1rem 0 2.5rem;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="helper-top">
+			<div class="container helper-top-inner">
+				<div>
+					<h1>ماژول‌های اینلاین بلاگ داتیس</h1>
+					<p>ابزار کمکی برای تولید HTML آمادهٔ بلوک‌های CKEditor — بدون بک‌اند</p>
+				</div>
+				<nav class="helper-nav" aria-label="پرش به ماژول">
+					<a href="#mod-1">۱</a>
+					<a href="#mod-2">۲</a>
+					<a href="#mod-3">۳</a>
+					<a href="#mod-4">۴</a>
+					<a href="#mod-5">۵</a>
+					<a href="#mod-6">۶</a>
+					<a href="#mod-7">۷</a>
+					<a href="#mod-8">۸</a>
+					<a href="#mod-9">۹</a>
+					<a href="#mod-10">۱۰</a>
+				</nav>
+			</div>
+		</header>
+
+		<main class="container py-3">
+			<div class="helper-intro">
+				<strong>نحوه استفاده</strong>
+				<ol>
+					<li>متن‌ها و لینک‌های هر ماژول را در بخش تنظیمات تغییر دهید.</li>
+					<li>پیش‌نمایش را بررسی کنید.</li>
+					<li>روی «کپی HTML» بزنید و در CKEditor (HTML block) جای‌گذاری کنید.</li>
+				</ol>
+				<p class="mb-0 small text-muted mt-2">
+					HTML خروجی خودکفا است (استایل اینلاین + کلاس‌های Bootstrap موجود در سایت). نیازی به تنظیم CKEditor در این فایل نیست.
+				</p>
+			</div>
+
+			<!-- ========== 1 ========== -->
+			<section class="mod" id="mod-1" data-module="callout">
+				<div class="mod-head">
+					<h2>۱) نکته کاربردی (Callout)</h2>
+					<span class="mod-badge">tip</span>
+				</div>
+				<p class="mod-label">پیش‌نمایش</p>
+				<div class="mod-preview" data-preview></div>
+				<p class="mod-label">تنظیمات</p>
+				<div class="mod-settings">
+					<div>
+						<label for="m1-title">عنوان کوتاه</label>
+						<input class="form-control" id="m1-title" data-key="title" value="نکته کاربردی:" />
+					</div>
+					<div class="span-2">
+						<label for="m1-text">متن</label>
+						<textarea class="form-control" id="m1-text" data-key="text" rows="2">پیش از تغییر برنامه تغذیه در فصل گرم، دُز و زمان‌بندی تزریق را با شرایط دما هماهنگ کنید.</textarea>
+					</div>
+					<div>
+						<label for="m1-linkText">متن لینک (اختیاری)</label>
+						<input class="form-control" id="m1-linkText" data-key="linkText" value="راهنمای کودآبیاری" />
+					</div>
+					<div>
+						<label for="m1-linkHref">آدرس لینک</label>
+						<input class="form-control" id="m1-linkHref" data-key="linkHref" value="knowledge-details.html" dir="ltr" />
+					</div>
+				</div>
+				<div class="mod-actions">
+					<button type="button" class="btn btn-primary rounded-pill px-4" data-copy>کپی HTML</button>
+					<span class="copy-feedback" data-feedback>کپی شد</span>
+				</div>
+				<textarea class="mod-code" data-code readonly aria-label="کد HTML ماژول ۱"></textarea>
+			</section>
+
+			<!-- ========== 2 ========== -->
+			<section class="mod" id="mod-2" data-module="quote">
+				<div class="mod-head">
+					<h2>۲) نقل‌قول</h2>
+					<span class="mod-badge">quote</span>
+				</div>
+				<p class="mod-label">پیش‌نمایش</p>
+				<div class="mod-preview" data-preview></div>
+				<p class="mod-label">تنظیمات</p>
+				<div class="mod-settings">
+					<div class="span-2">
+						<label for="m2-text">متن نقل‌قول</label>
+						<textarea class="form-control" id="m2-text" data-key="text" rows="3">هدف ما فقط تولید بیشتر نیست؛ هدف، پاسخ قابل‌اتکا به برنامه تغذیه مشتریان در فصل‌های پرتقاضا است.</textarea>
+					</div>
+					<div>
+						<label for="m2-author">منبع / نویسنده</label>
+						<input class="form-control" id="m2-author" data-key="author" value="تیم تولید داتیس" />
+					</div>
+				</div>
+				<div class="mod-actions">
+					<button type="button" class="btn btn-primary rounded-pill px-4" data-copy>کپی HTML</button>
+					<span class="copy-feedback" data-feedback>کپی شد</span>
+				</div>
+				<textarea class="mod-code" data-code readonly aria-label="کد HTML ماژول ۲"></textarea>
+			</section>
+
+			<!-- ========== 3 ========== -->
+			<section class="mod" id="mod-3" data-module="ctaBanner">
+				<div class="mod-head">
+					<h2>۳) بنر CTA مشاوره</h2>
+					<span class="mod-badge">cta</span>
+				</div>
+				<p class="mod-label">پیش‌نمایش</p>
+				<div class="mod-preview" data-preview></div>
+				<p class="mod-label">تنظیمات</p>
+				<div class="mod-settings">
+					<div>
+						<label for="m3-eyebrow">برچسب بالای عنوان</label>
+						<input class="form-control" id="m3-eyebrow" data-key="eyebrow" value="مشاوره رایگان" />
+					</div>
+					<div>
+						<label for="m3-title">عنوان</label>
+						<input class="form-control" id="m3-title" data-key="title" value="برای برنامه تغذیه کمک می‌خواهید؟" />
+					</div>
+					<div class="span-2">
+						<label for="m3-text">توضیح کوتاه</label>
+						<textarea class="form-control" id="m3-text" data-key="text" rows="2">کارشناسان داتیس برای انتخاب محصول و تنظیم کودآبیاری همراه شما هستند.</textarea>
+					</div>
+					<div>
+						<label for="m3-btnText">متن دکمه</label>
+						<input class="form-control" id="m3-btnText" data-key="btnText" value="دریافت مشاوره" />
+					</div>
+					<div>
+						<label for="m3-btnHref">لینک دکمه</label>
+						<input class="form-control" id="m3-btnHref" data-key="btnHref" value="consultation.html" dir="ltr" />
+					</div>
+				</div>
+				<div class="mod-actions">
+					<button type="button" class="btn btn-primary rounded-pill px-4" data-copy>کپی HTML</button>
+					<span class="copy-feedback" data-feedback>کپی شد</span>
+				</div>
+				<textarea class="mod-code" data-code readonly aria-label="کد HTML ماژول ۳"></textarea>
+			</section>
+
+			<!-- ========== 4 ========== -->
+			<section class="mod" id="mod-4" data-module="dualCta">
+				<div class="mod-head">
+					<h2>۴) دو دکمه (قیمت + مشاوره)</h2>
+					<span class="mod-badge">dual-cta</span>
+				</div>
+				<p class="mod-label">پیش‌نمایش</p>
+				<div class="mod-preview" data-preview></div>
+				<p class="mod-label">تنظیمات</p>
+				<div class="mod-settings">
+					<div class="span-2">
+						<label for="m4-title">عنوان</label>
+						<input class="form-control" id="m4-title" data-key="title" value="گام بعدی برای مشتریان" />
+					</div>
+					<div class="span-2">
+						<label for="m4-text">توضیح</label>
+						<textarea class="form-control" id="m4-text" data-key="text" rows="2">برای هماهنگی تأمین یا انتخاب فرمولاسیون مناسب، یکی از مسیرهای زیر را انتخاب کنید.</textarea>
+					</div>
+					<div>
+						<label for="m4-btn1Text">دکمه اصلی</label>
+						<input class="form-control" id="m4-btn1Text" data-key="btn1Text" value="درخواست قیمت" />
+					</div>
+					<div>
+						<label for="m4-btn1Href">لینک دکمه اصلی</label>
+						<input class="form-control" id="m4-btn1Href" data-key="btn1Href" value="consultation.html?subject=quote" dir="ltr" />
+					</div>
+					<div>
+						<label for="m4-btn2Text">دکمه دوم</label>
+						<input class="form-control" id="m4-btn2Text" data-key="btn2Text" value="مشاوره تخصصی" />
+					</div>
+					<div>
+						<label for="m4-btn2Href">لینک دکمه دوم</label>
+						<input class="form-control" id="m4-btn2Href" data-key="btn2Href" value="consultation.html" dir="ltr" />
+					</div>
+				</div>
+				<div class="mod-actions">
+					<button type="button" class="btn btn-primary rounded-pill px-4" data-copy>کپی HTML</button>
+					<span class="copy-feedback" data-feedback>کپی شد</span>
+				</div>
+				<textarea class="mod-code" data-code readonly aria-label="کد HTML ماژول ۴"></textarea>
+			</section>
+
+			<!-- ========== 5 ========== -->
+			<section class="mod" id="mod-5" data-module="productCard">
+				<div class="mod-head">
+					<h2>۵) کارت محصول مرتبط</h2>
+					<span class="mod-badge">product</span>
+				</div>
+				<p class="mod-label">پیش‌نمایش</p>
+				<div class="mod-preview" data-preview></div>
+				<p class="mod-label">تنظیمات</p>
+				<div class="mod-settings">
+					<div>
+						<label for="m5-tag">برچسب</label>
+						<input class="form-control" id="m5-tag" data-key="tag" value="پرفروش" />
+					</div>
+					<div>
+						<label for="m5-title">نام محصول</label>
+						<input class="form-control" id="m5-title" data-key="title" value="پتاسیم نیترات محلول" />
+					</div>
+					<div class="span-2">
+						<label for="m5-text">توضیح کوتاه</label>
+						<textarea class="form-control" id="m5-text" data-key="text" rows="2">کود کاملاً محلول برای کوددهی قطره‌ای در گلخانه و فضای باز.</textarea>
+					</div>
+					<div>
+						<label for="m5-img">آدرس تصویر</label>
+						<input class="form-control" id="m5-img" data-key="img" value="assets/img/prod-potassium.png" dir="ltr" />
+					</div>
+					<div>
+						<label for="m5-btnText">متن لینک</label>
+						<input class="form-control" id="m5-btnText" data-key="btnText" value="جزئیات محصول" />
+					</div>
+					<div class="span-2">
+						<label for="m5-btnHref">لینک محصول</label>
+						<input class="form-control" id="m5-btnHref" data-key="btnHref" value="product-details.html" dir="ltr" />
+					</div>
+				</div>
+				<div class="mod-actions">
+					<button type="button" class="btn btn-primary rounded-pill px-4" data-copy>کپی HTML</button>
+					<span class="copy-feedback" data-feedback>کپی شد</span>
+				</div>
+				<textarea class="mod-code" data-code readonly aria-label="کد HTML ماژول ۵"></textarea>
+			</section>
+
+			<!-- ========== 6 ========== -->
+			<section class="mod" id="mod-6" data-module="downloadCta">
+				<div class="mod-head">
+					<h2>۶) CTA دانلود (کاتالوگ / TDS)</h2>
+					<span class="mod-badge">download</span>
+				</div>
+				<p class="mod-label">پیش‌نمایش</p>
+				<div class="mod-preview" data-preview></div>
+				<p class="mod-label">تنظیمات</p>
+				<div class="mod-settings">
+					<div>
+						<label for="m6-title">عنوان</label>
+						<input class="form-control" id="m6-title" data-key="title" value="دانلود کاتالوگ ۱۴۰۴" />
+					</div>
+					<div>
+						<label for="m6-btnText">متن دکمه</label>
+						<input class="form-control" id="m6-btnText" data-key="btnText" value="دانلود PDF" />
+					</div>
+					<div class="span-2">
+						<label for="m6-text">توضیح</label>
+						<textarea class="form-control" id="m6-text" data-key="text" rows="2">مشخصات محصولات محلول، بایواستیمولانت و ریزمغذی‌ها را در یک فایل دریافت کنید.</textarea>
+					</div>
+					<div class="span-2">
+						<label for="m6-btnHref">لینک فایل / صفحه</label>
+						<input class="form-control" id="m6-btnHref" data-key="btnHref" value="downloads.html#catalog" dir="ltr" />
+					</div>
+				</div>
+				<div class="mod-actions">
+					<button type="button" class="btn btn-primary rounded-pill px-4" data-copy>کپی HTML</button>
+					<span class="copy-feedback" data-feedback>کپی شد</span>
+				</div>
+				<textarea class="mod-code" data-code readonly aria-label="کد HTML ماژول ۶"></textarea>
+			</section>
+
+			<!-- ========== 7 ========== -->
+			<section class="mod" id="mod-7" data-module="contactStrip">
+				<div class="mod-head">
+					<h2>۷) نوار تماس سریع</h2>
+					<span class="mod-badge">contact</span>
+				</div>
+				<p class="mod-label">پیش‌نمایش</p>
+				<div class="mod-preview" data-preview></div>
+				<p class="mod-label">تنظیمات</p>
+				<div class="mod-settings">
+					<div>
+						<label for="m7-title">عنوان</label>
+						<input class="form-control" id="m7-title" data-key="title" value="سوال فنی دارید؟" />
+					</div>
+					<div>
+						<label for="m7-text">متن کوتاه</label>
+						<input class="form-control" id="m7-text" data-key="text" value="با واحد پشتیبانی داتیس در تماس باشید." />
+					</div>
+					<div>
+						<label for="m7-phoneLabel">نمایش تلفن</label>
+						<input class="form-control" id="m7-phoneLabel" data-key="phoneLabel" value="۰۲۱-۲۶۲۱۰۱۲۱" />
+					</div>
+					<div>
+						<label for="m7-phoneHref">tel:</label>
+						<input class="form-control" id="m7-phoneHref" data-key="phoneHref" value="+982126210121" dir="ltr" />
+					</div>
+					<div>
+						<label for="m7-email">ایمیل</label>
+						<input class="form-control" id="m7-email" data-key="email" value="info@datisac.com" dir="ltr" />
+					</div>
+					<div>
+						<label for="m7-pageHref">لینک صفحه تماس</label>
+						<input class="form-control" id="m7-pageHref" data-key="pageHref" value="contact.html" dir="ltr" />
+					</div>
+				</div>
+				<div class="mod-actions">
+					<button type="button" class="btn btn-primary rounded-pill px-4" data-copy>کپی HTML</button>
+					<span class="copy-feedback" data-feedback>کپی شد</span>
+				</div>
+				<textarea class="mod-code" data-code readonly aria-label="کد HTML ماژول ۷"></textarea>
+			</section>
+
+			<!-- ========== 8 ========== -->
+			<section class="mod" id="mod-8" data-module="checklist">
+				<div class="mod-head">
+					<h2>۸) چک‌لیست / مراحل</h2>
+					<span class="mod-badge">checklist</span>
+				</div>
+				<p class="mod-label">پیش‌نمایش</p>
+				<div class="mod-preview" data-preview></div>
+				<p class="mod-label">تنظیمات</p>
+				<div class="mod-settings">
+					<div class="span-2">
+						<label for="m8-title">عنوان باکس</label>
+						<input class="form-control" id="m8-title" data-key="title" value="قبل از شروع فصل این موارد را چک کنید" />
+					</div>
+					<div class="span-2">
+						<label for="m8-items">آیتم‌ها (هر خط یک مورد)</label>
+						<textarea class="form-control" id="m8-items" data-key="items" rows="4">آنالیز آب و خاک
+انتخاب کودهای کاملاً محلول
+تنظیم نسبت N-P-K بر اساس مرحله رشد
+پایش گرفتگی فیلتر و قطره‌چکان</textarea>
+					</div>
+				</div>
+				<div class="mod-actions">
+					<button type="button" class="btn btn-primary rounded-pill px-4" data-copy>کپی HTML</button>
+					<span class="copy-feedback" data-feedback>کپی شد</span>
+				</div>
+				<textarea class="mod-code" data-code readonly aria-label="کد HTML ماژول ۸"></textarea>
+			</section>
+
+			<!-- ========== 9 ========== -->
+			<section class="mod" id="mod-9" data-module="knowledgeCard">
+				<div class="mod-head">
+					<h2>۹) کارت آموزش / مطلب مرتبط</h2>
+					<span class="mod-badge">knowledge</span>
+				</div>
+				<p class="mod-label">پیش‌نمایش</p>
+				<div class="mod-preview" data-preview></div>
+				<p class="mod-label">تنظیمات</p>
+				<div class="mod-settings">
+					<div>
+						<label for="m9-eyebrow">برچسب</label>
+						<input class="form-control" id="m9-eyebrow" data-key="eyebrow" value="آموزش مرتبط" />
+					</div>
+					<div>
+						<label for="m9-meta">متا (مثلاً زمان مطالعه)</label>
+						<input class="form-control" id="m9-meta" data-key="meta" value="۱۵ دقیقه مطالعه" />
+					</div>
+					<div class="span-2">
+						<label for="m9-title">عنوان</label>
+						<input class="form-control" id="m9-title" data-key="title" value="اصول کودآبیاری قطره‌ای" />
+					</div>
+					<div class="span-2">
+						<label for="m9-text">توضیح</label>
+						<textarea class="form-control" id="m9-text" data-key="text" rows="2">راهنمای کاربردی برای تنظیم برنامه تغذیه در سیستم‌های قطره‌ای.</textarea>
+					</div>
+					<div>
+						<label for="m9-img">آدرس تصویر</label>
+						<input class="form-control" id="m9-img" data-key="img" value="assets/img/illustrations/irrigation.jpg" dir="ltr" />
+					</div>
+					<div>
+						<label for="m9-btnText">متن لینک</label>
+						<input class="form-control" id="m9-btnText" data-key="btnText" value="مطالعه راهنما" />
+					</div>
+					<div class="span-2">
+						<label for="m9-btnHref">لینک</label>
+						<input class="form-control" id="m9-btnHref" data-key="btnHref" value="knowledge-details.html" dir="ltr" />
+					</div>
+				</div>
+				<div class="mod-actions">
+					<button type="button" class="btn btn-primary rounded-pill px-4" data-copy>کپی HTML</button>
+					<span class="copy-feedback" data-feedback>کپی شد</span>
+				</div>
+				<textarea class="mod-code" data-code readonly aria-label="کد HTML ماژول ۹"></textarea>
+			</section>
+
+			<!-- ========== 10 ========== -->
+			<section class="mod" id="mod-10" data-module="warning">
+				<div class="mod-head">
+					<h2>۱۰) هشدار / نکته ایمنی</h2>
+					<span class="mod-badge">warning</span>
+				</div>
+				<p class="mod-label">پیش‌نمایش</p>
+				<div class="mod-preview" data-preview></div>
+				<p class="mod-label">تنظیمات</p>
+				<div class="mod-settings">
+					<div>
+						<label for="m10-title">عنوان</label>
+						<input class="form-control" id="m10-title" data-key="title" value="توجه ایمنی" />
+					</div>
+					<div>
+						<label for="m10-linkText">متن لینک (اختیاری)</label>
+						<input class="form-control" id="m10-linkText" data-key="linkText" value="دانلود SDS" />
+					</div>
+					<div class="span-2">
+						<label for="m10-text">متن هشدار</label>
+						<textarea class="form-control" id="m10-text" data-key="text" rows="2">از اختلاط همزمان کودهای کلسیمی و سولفاته در یک مخزن خودداری کنید و قبل از مصرف برگه ایمنی را بخوانید.</textarea>
+					</div>
+					<div class="span-2">
+						<label for="m10-linkHref">آدرس لینک</label>
+						<input class="form-control" id="m10-linkHref" data-key="linkHref" value="downloads.html#sds" dir="ltr" />
+					</div>
+				</div>
+				<div class="mod-actions">
+					<button type="button" class="btn btn-primary rounded-pill px-4" data-copy>کپی HTML</button>
+					<span class="copy-feedback" data-feedback>کپی شد</span>
+				</div>
+				<textarea class="mod-code" data-code readonly aria-label="کد HTML ماژول ۱۰"></textarea>
+			</section>
+
+			<p class="helper-foot">این فایل فقط ابزار داخلی تولید محتواست و بخشی از صفحات عمومی سایت نیست.</p>
+		</main>
+
+		<script>
+			(function () {
+				'use strict';
+
+				function esc(value) {
+					return String(value == null ? '' : value)
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;');
+				}
+
+				function getData(section) {
+					var data = {};
+					section.querySelectorAll('[data-key]').forEach(function (el) {
+						data[el.getAttribute('data-key')] = el.value;
+					});
+					return data;
+				}
+
+				function linkPart(text, href) {
+					if (!text || !String(text).trim()) return '';
+					return ' <a href="' + esc(href) + '" style="color:#439A0D;font-weight:700;text-decoration:underline;">' + esc(text) + '</a>';
+				}
+
+				var builders = {
+					callout: function (d) {
+						return (
+							'<div class="blog-callout" style="margin:1.5rem 0;padding:1rem 1.15rem;background:#fff;border:1px dashed rgba(67,154,13,.45);border-radius:18px;color:#33413a;line-height:1.85;">' +
+							'<strong>' +
+							esc(d.title) +
+							'</strong> ' +
+							esc(d.text) +
+							linkPart(d.linkText, d.linkHref) +
+							'</div>'
+						);
+					},
+
+					quote: function (d) {
+						return (
+							'<blockquote class="blog-quote" style="margin:1.5rem 0;padding:1.15rem 1.25rem;background:#f4faf0;border-right:4px solid #439A0D;border-radius:0 18px 18px 0;color:#082F12;">' +
+							'<p style="margin:0 0 .65rem;line-height:1.85;">' +
+							esc(d.text) +
+							'</p>' +
+							'<footer style="font-size:.85rem;color:#6b7d72;">— ' +
+							esc(d.author) +
+							'</footer>' +
+							'</blockquote>'
+						);
+					},
+
+					ctaBanner: function (d) {
+						return (
+							'<div class="blog-mod-cta" style="margin:1.75rem 0;padding:1.5rem 1.35rem;border-radius:28px;background:linear-gradient(120deg,#439A0D 0%,#18642E 100%);color:#fff;box-shadow:0 12px 34px rgba(8,47,18,.12);">' +
+							'<div style="display:inline-flex;align-items:center;gap:.35rem;font-size:.85rem;font-weight:700;background:rgba(255,255,255,.15);padding:.3rem .85rem;border-radius:999px;margin-bottom:.75rem;">' +
+							esc(d.eyebrow) +
+							'</div>' +
+							'<h3 style="margin:0 0 .5rem;color:#fff;font-weight:800;font-size:1.25rem;">' +
+							esc(d.title) +
+							'</h3>' +
+							'<p style="margin:0 0 1rem;color:rgba(255,255,255,.92);line-height:1.8;">' +
+							esc(d.text) +
+							'</p>' +
+							'<a href="' +
+							esc(d.btnHref) +
+							'" class="btn btn-light rounded-pill" style="display:inline-block;padding:.55rem 1.25rem;border-radius:999px;background:#fff;color:#18642E;font-weight:800;text-decoration:none;">' +
+							esc(d.btnText) +
+							'</a>' +
+							'</div>'
+						);
+					},
+
+					dualCta: function (d) {
+						return (
+							'<div class="blog-mod-dual" style="margin:1.75rem 0;padding:1.35rem 1.25rem;background:#fff;border:1px solid #d7e8cc;border-radius:18px;">' +
+							'<h3 style="margin:0 0 .45rem;font-size:1.1rem;font-weight:800;color:#082F12;">' +
+							esc(d.title) +
+							'</h3>' +
+							'<p style="margin:0 0 1rem;color:#33413a;line-height:1.85;">' +
+							esc(d.text) +
+							'</p>' +
+							'<div style="display:flex;flex-wrap:wrap;gap:.55rem;">' +
+							'<a href="' +
+							esc(d.btn1Href) +
+							'" class="btn btn-primary rounded-pill" style="display:inline-block;padding:.5rem 1.15rem;border-radius:999px;background:#439A0D;color:#fff;font-weight:700;text-decoration:none;">' +
+							esc(d.btn1Text) +
+							'</a>' +
+							'<a href="' +
+							esc(d.btn2Href) +
+							'" class="btn btn-outline-primary rounded-pill" style="display:inline-block;padding:.5rem 1.15rem;border-radius:999px;border:1px solid #439A0D;color:#18642E;font-weight:700;text-decoration:none;background:#fff;">' +
+							esc(d.btn2Text) +
+							'</a>' +
+							'</div>' +
+							'</div>'
+						);
+					},
+
+					productCard: function (d) {
+						var tag = d.tag && String(d.tag).trim()
+							? '<span style="position:absolute;top:.75rem;right:.75rem;background:rgba(255,255,255,.95);color:#18642E;font-size:.75rem;font-weight:700;padding:.2rem .7rem;border-radius:999px;">' +
+								esc(d.tag) +
+								'</span>'
+							: '';
+						return (
+							'<div class="blog-mod-product" style="margin:1.75rem 0;max-width:22rem;background:#fff;border:1px solid #d7e8cc;border-radius:18px;overflow:hidden;">' +
+							'<div style="position:relative;background:#f4faf0;padding:1.25rem;text-align:center;">' +
+							tag +
+							'<img src="' +
+							esc(d.img) +
+							'" alt="' +
+							esc(d.title) +
+							'" style="max-height:160px;width:auto;object-fit:contain;" loading="lazy" />' +
+							'</div>' +
+							'<div style="padding:1.15rem 1.25rem 1.35rem;">' +
+							'<h3 style="margin:0 0 .4rem;font-size:1.05rem;font-weight:800;color:#082F12;">' +
+							esc(d.title) +
+							'</h3>' +
+							'<p style="margin:0 0 .85rem;color:#33413a;line-height:1.8;font-size:.95rem;">' +
+							esc(d.text) +
+							'</p>' +
+							'<a href="' +
+							esc(d.btnHref) +
+							'" style="color:#439A0D;font-weight:700;text-decoration:none;">' +
+							esc(d.btnText) +
+							' ←</a>' +
+							'</div>' +
+							'</div>'
+						);
+					},
+
+					downloadCta: function (d) {
+						return (
+							'<div class="blog-mod-download" style="margin:1.75rem 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;padding:1.15rem 1.25rem;background:#f4faf0;border:1px solid #d7e8cc;border-radius:18px;">' +
+							'<div style="min-width:0;flex:1 1 14rem;">' +
+							'<strong style="display:block;color:#082F12;font-size:1.05rem;margin-bottom:.25rem;">' +
+							esc(d.title) +
+							'</strong>' +
+							'<span style="color:#33413a;line-height:1.7;">' +
+							esc(d.text) +
+							'</span>' +
+							'</div>' +
+							'<a href="' +
+							esc(d.btnHref) +
+							'" class="btn btn-primary rounded-pill" style="display:inline-block;padding:.55rem 1.2rem;border-radius:999px;background:#439A0D;color:#fff;font-weight:700;text-decoration:none;white-space:nowrap;">' +
+							esc(d.btnText) +
+							'</a>' +
+							'</div>'
+						);
+					},
+
+					contactStrip: function (d) {
+						return (
+							'<div class="blog-mod-contact" style="margin:1.75rem 0;padding:1.15rem 1.25rem;background:#fff;border:1px solid #d7e8cc;border-radius:18px;">' +
+							'<strong style="display:block;color:#082F12;font-size:1.05rem;margin-bottom:.25rem;">' +
+							esc(d.title) +
+							'</strong>' +
+							'<p style="margin:0 0 .85rem;color:#33413a;">' +
+							esc(d.text) +
+							'</p>' +
+							'<div style="display:flex;flex-wrap:wrap;gap:.65rem 1rem;align-items:center;">' +
+							'<a href="tel:' +
+							esc(d.phoneHref) +
+							'" style="color:#18642E;font-weight:700;text-decoration:none;">☎ ' +
+							esc(d.phoneLabel) +
+							'</a>' +
+							'<a href="mailto:' +
+							esc(d.email) +
+							'" style="color:#18642E;font-weight:700;text-decoration:none;">✉ ' +
+							esc(d.email) +
+							'</a>' +
+							'<a href="' +
+							esc(d.pageHref) +
+							'" style="color:#439A0D;font-weight:700;text-decoration:underline;">صفحه تماس</a>' +
+							'</div>' +
+							'</div>'
+						);
+					},
+
+					checklist: function (d) {
+						var items = String(d.items || '')
+							.split(/\r?\n/)
+							.map(function (line) {
+								return line.trim();
+							})
+							.filter(Boolean);
+						var lis = items
+							.map(function (item) {
+								return (
+									'<li style="display:flex;align-items:flex-start;gap:.5rem;margin-bottom:.45rem;color:#33413a;">' +
+									'<span style="color:#439A0D;font-weight:800;line-height:1.6;">✓</span>' +
+									'<span>' +
+									esc(item) +
+									'</span></li>'
+								);
+							})
+							.join('');
+						return (
+							'<div class="blog-mod-checklist" style="margin:1.75rem 0;padding:1.25rem 1.3rem;background:#fff;border:1px solid #d7e8cc;border-radius:18px;">' +
+							'<h3 style="margin:0 0 .85rem;font-size:1.05rem;font-weight:800;color:#082F12;">' +
+							esc(d.title) +
+							'</h3>' +
+							'<ul style="list-style:none;padding:0;margin:0;">' +
+							lis +
+							'</ul>' +
+							'</div>'
+						);
+					},
+
+					knowledgeCard: function (d) {
+						return (
+							'<div class="blog-mod-knowledge" style="margin:1.75rem 0;display:grid;grid-template-columns:120px 1fr;gap:1rem;align-items:center;padding:1rem;background:#fff;border:1px solid #d7e8cc;border-radius:18px;">' +
+							'<img src="' +
+							esc(d.img) +
+							'" alt="" style="width:120px;height:90px;object-fit:cover;border-radius:12px;background:#f4faf0;" loading="lazy" />' +
+							'<div>' +
+							'<div style="display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:.35rem;">' +
+							'<span style="font-size:.75rem;font-weight:700;color:#18642E;background:#e8f5e0;padding:.15rem .6rem;border-radius:999px;">' +
+							esc(d.eyebrow) +
+							'</span>' +
+							'<small style="color:#6b7d72;">' +
+							esc(d.meta) +
+							'</small>' +
+							'</div>' +
+							'<h3 style="margin:0 0 .35rem;font-size:1.05rem;font-weight:800;color:#082F12;">' +
+							esc(d.title) +
+							'</h3>' +
+							'<p style="margin:0 0 .55rem;color:#33413a;line-height:1.7;font-size:.92rem;">' +
+							esc(d.text) +
+							'</p>' +
+							'<a href="' +
+							esc(d.btnHref) +
+							'" style="color:#439A0D;font-weight:700;text-decoration:none;">' +
+							esc(d.btnText) +
+							' ←</a>' +
+							'</div>' +
+							'</div>'
+						);
+					},
+
+					warning: function (d) {
+						return (
+							'<div class="blog-mod-warning" style="margin:1.75rem 0;padding:1rem 1.15rem;background:#fff8f0;border:1px solid #f0d2a8;border-radius:18px;color:#5a3d12;line-height:1.85;">' +
+							'<strong style="display:inline-block;margin-left:.35rem;">⚠ ' +
+							esc(d.title) +
+							':</strong> ' +
+							esc(d.text) +
+							linkPart(d.linkText, d.linkHref) +
+							'</div>'
+						);
+					}
+				};
+
+				function render(section) {
+					var type = section.getAttribute('data-module');
+					var builder = builders[type];
+					if (!builder) return;
+					var html = builder(getData(section));
+					section.querySelector('[data-preview]').innerHTML = html;
+					section.querySelector('[data-code]').value = html;
+				}
+
+				function copyText(text) {
+					if (navigator.clipboard && navigator.clipboard.writeText) {
+						return navigator.clipboard.writeText(text);
+					}
+					return new Promise(function (resolve, reject) {
+						var ta = document.createElement('textarea');
+						ta.value = text;
+						ta.setAttribute('readonly', '');
+						ta.style.position = 'fixed';
+						ta.style.top = '-9999px';
+						document.body.appendChild(ta);
+						ta.select();
+						try {
+							document.execCommand('copy');
+							resolve();
+						} catch (err) {
+							reject(err);
+						}
+						document.body.removeChild(ta);
+					});
+				}
+
+				document.querySelectorAll('[data-module]').forEach(function (section) {
+					render(section);
+
+					section.querySelectorAll('[data-key]').forEach(function (input) {
+						input.addEventListener('input', function () {
+							render(section);
+						});
+						input.addEventListener('change', function () {
+							render(section);
+						});
+					});
+
+					var copyBtn = section.querySelector('[data-copy]');
+					var feedback = section.querySelector('[data-feedback]');
+					copyBtn.addEventListener('click', function () {
+						var code = section.querySelector('[data-code]').value;
+						copyText(code).then(function () {
+							feedback.classList.add('is-on');
+							setTimeout(function () {
+								feedback.classList.remove('is-on');
+							}, 1800);
+						});
+					});
+				});
+			})();
+		</script>
+	</body>
+</html>

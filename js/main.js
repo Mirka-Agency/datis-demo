@@ -310,6 +310,465 @@
 
   document.querySelectorAll('.consult-form').forEach(initConsultForm);
 
+  // Prefill consultation/quote subject from ?subject=quote|consultation
+  (function prefillRequestSubject() {
+    const subjectEl = document.getElementById('requestFormSubject');
+    if (!subjectEl) return;
+    const params = new URLSearchParams(window.location.search);
+    const subject = params.get('subject');
+    if (subject === 'quote' || subject === 'consultation') {
+      subjectEl.value = subject;
+    }
+  })();
+
+  // Prefill partnership type from ?type=distributor|sales-rep|b2b|other
+  (function prefillPartnershipType() {
+    const typeEl = document.getElementById('partnershipFormType');
+    if (!typeEl) return;
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type');
+    const allowed = ['distributor', 'sales-rep', 'b2b', 'other'];
+    if (type && allowed.indexOf(type) !== -1) {
+      typeEl.value = type;
+    }
+  })();
+
+  /* -------- Gallery lightbox (GLightbox, local) -------- */
+  (function initGalleryLightbox() {
+    if (typeof GLightbox !== 'function') return;
+    if (!document.querySelector('.glightbox')) return;
+
+    GLightbox({
+      selector: '.glightbox',
+      touchNavigation: true,
+      loop: true,
+      openEffect: 'fade',
+      closeEffect: 'fade',
+      cssEfects: {
+        fade: { in: 'fadeIn', out: 'fadeOut' },
+      },
+    });
+  })();
+
+  /* -------- Products catalog filters + pagination -------- */
+  (function initProductsCatalog() {
+    const grid = document.getElementById('productsGrid');
+    const paginationEl = document.getElementById('productsPagination');
+    if (!grid || !paginationEl) return;
+
+    const searchEl = document.getElementById('productsSearch');
+    const familyEl = document.getElementById('productsFamily');
+    const methodEl = document.getElementById('productsMethod');
+    const cropEl = document.getElementById('productsCrop');
+    const sortEl = document.getElementById('productsSort');
+    const clearBtn = document.getElementById('productsClearFilters');
+    const countEl = document.getElementById('productsResultCount');
+    const emptyEl = document.getElementById('productsEmpty');
+    const tagInputs = Array.prototype.slice.call(
+      document.querySelectorAll('#productsFilters input[type="checkbox"]')
+    );
+    const exploreChips = Array.prototype.slice.call(
+      document.querySelectorAll('[data-products-filter]')
+    );
+
+    const PAGE_SIZE = 6;
+    let currentPage = 1;
+    const items = Array.prototype.slice.call(grid.querySelectorAll('.product-col'));
+
+    function tokenList(value) {
+      return String(value || '')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+    }
+
+    function selectedTags() {
+      return tagInputs.filter(function (input) {
+        return input.checked;
+      }).map(function (input) {
+        return input.value;
+      });
+    }
+
+    function syncExploreChips() {
+      exploreChips.forEach(function (chip) {
+        const key = chip.getAttribute('data-products-filter');
+        const value = chip.getAttribute('data-value');
+        let active = false;
+        if (key === 'family' && familyEl) active = familyEl.value === value;
+        if (key === 'method' && methodEl) active = methodEl.value === value;
+        if (key === 'crop' && cropEl) active = cropEl.value === value;
+        chip.classList.toggle('is-active', active);
+      });
+    }
+
+    function getFilteredSorted() {
+      const q = (searchEl && searchEl.value ? searchEl.value : '').trim().toLowerCase();
+      const family = familyEl ? familyEl.value : '';
+      const method = methodEl ? methodEl.value : '';
+      const crop = cropEl ? cropEl.value : '';
+      const tags = selectedTags();
+      const sort = sortEl ? sortEl.value : 'featured';
+
+      let list = items.filter(function (item) {
+        const name = (item.getAttribute('data-name') || '').toLowerCase();
+        const itemFamily = item.getAttribute('data-family') || '';
+        const itemMethods = tokenList(item.getAttribute('data-method'));
+        const itemCrops = tokenList(item.getAttribute('data-crop'));
+        const itemTags = tokenList(item.getAttribute('data-tags'));
+
+        if (q && name.indexOf(q) === -1) return false;
+        if (family && itemFamily !== family) return false;
+        if (method && itemMethods.indexOf(method) === -1) return false;
+        if (crop && itemCrops.indexOf(crop) === -1) return false;
+        if (tags.length) {
+          const ok = tags.every(function (tag) {
+            return itemTags.indexOf(tag) !== -1;
+          });
+          if (!ok) return false;
+        }
+        return true;
+      });
+
+      if (sort === 'name-asc' || sort === 'name-desc') {
+        list = list.slice().sort(function (a, b) {
+          const an = a.getAttribute('data-name') || '';
+          const bn = b.getAttribute('data-name') || '';
+          return sort === 'name-asc' ? an.localeCompare(bn, 'fa') : bn.localeCompare(an, 'fa');
+        });
+      }
+
+      return list;
+    }
+
+    function renderPagination(totalPages) {
+      paginationEl.innerHTML = '';
+      if (totalPages <= 1) return;
+
+      function addBtn(label, page, opts) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'page-btn';
+        btn.textContent = typeof label === 'number' ? toPersianDigits(label) : label;
+        if (opts && opts.active) btn.classList.add('is-active');
+        if (opts && opts.disabled) btn.disabled = true;
+        if (!(opts && opts.disabled) && page) {
+          btn.addEventListener('click', function () {
+            currentPage = page;
+            render();
+            const catalog = document.getElementById('productsCatalog');
+            if (catalog) catalog.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        }
+        paginationEl.appendChild(btn);
+      }
+
+      addBtn('قبلی', currentPage - 1, { disabled: currentPage <= 1 });
+      for (let i = 1; i <= totalPages; i += 1) {
+        addBtn(i, i, { active: i === currentPage });
+      }
+      addBtn('بعدی', currentPage + 1, { disabled: currentPage >= totalPages });
+    }
+
+    function render() {
+      const filtered = getFilteredSorted();
+      const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      items.forEach(function (item) {
+        item.hidden = true;
+      });
+
+      const start = (currentPage - 1) * PAGE_SIZE;
+      filtered.forEach(function (item, index) {
+        grid.appendChild(item);
+        item.hidden = !(index >= start && index < start + PAGE_SIZE);
+      });
+
+      const pageItems = filtered.slice(start, start + PAGE_SIZE);
+
+      if (emptyEl) emptyEl.hidden = filtered.length !== 0;
+
+      if (countEl) {
+        if (!filtered.length) {
+          countEl.textContent = 'نتیجه‌ای یافت نشد';
+        } else {
+          const from = start + 1;
+          const to = start + pageItems.length;
+          countEl.textContent =
+            'نمایش ' +
+            toPersianDigits(from) +
+            ' تا ' +
+            toPersianDigits(to) +
+            ' از ' +
+            toPersianDigits(filtered.length) +
+            ' محصول';
+        }
+      }
+
+      renderPagination(filtered.length ? totalPages : 0);
+      syncExploreChips();
+    }
+
+    function onFilterChange() {
+      currentPage = 1;
+      render();
+    }
+
+    if (searchEl) searchEl.addEventListener('input', onFilterChange);
+    if (familyEl) familyEl.addEventListener('change', onFilterChange);
+    if (methodEl) methodEl.addEventListener('change', onFilterChange);
+    if (cropEl) cropEl.addEventListener('change', onFilterChange);
+    if (sortEl) sortEl.addEventListener('change', onFilterChange);
+    tagInputs.forEach(function (input) {
+      input.addEventListener('change', onFilterChange);
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        if (searchEl) searchEl.value = '';
+        if (familyEl) familyEl.value = '';
+        if (methodEl) methodEl.value = '';
+        if (cropEl) cropEl.value = '';
+        if (sortEl) sortEl.value = 'featured';
+        tagInputs.forEach(function (input) {
+          input.checked = false;
+        });
+        onFilterChange();
+      });
+    }
+
+    exploreChips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        const key = chip.getAttribute('data-products-filter');
+        const value = chip.getAttribute('data-value');
+        if (key === 'family' && familyEl) {
+          familyEl.value = familyEl.value === value ? '' : value;
+        }
+        if (key === 'method' && methodEl) {
+          methodEl.value = methodEl.value === value ? '' : value;
+        }
+        if (key === 'crop' && cropEl) {
+          cropEl.value = cropEl.value === value ? '' : value;
+        }
+        onFilterChange();
+        const catalog = document.getElementById('productsCatalog');
+        if (catalog) catalog.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    render();
+  })();
+
+  /* -------- Product category: simple filter + pagination -------- */
+  (function initCategoryCatalog() {
+    const grid = document.getElementById('categoryGrid');
+    const paginationEl = document.getElementById('categoryPagination');
+    if (!grid || !paginationEl) return;
+
+    const searchEl = document.getElementById('categorySearch');
+    const methodEl = document.getElementById('categoryMethod');
+    const tagEl = document.getElementById('categoryTag');
+    const clearBtn = document.getElementById('categoryClearFilters');
+    const countEl = document.getElementById('categoryResultCount');
+    const emptyEl = document.getElementById('categoryEmpty');
+    const PAGE_SIZE = 4;
+    let currentPage = 1;
+    const items = Array.prototype.slice.call(grid.querySelectorAll('.product-col'));
+
+    function tokenList(value) {
+      return String(value || '')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+    }
+
+    function getFiltered() {
+      const q = (searchEl && searchEl.value ? searchEl.value : '').trim().toLowerCase();
+      const method = methodEl ? methodEl.value : '';
+      const tag = tagEl ? tagEl.value : '';
+
+      return items.filter(function (item) {
+        const name = (item.getAttribute('data-name') || '').toLowerCase();
+        const methods = tokenList(item.getAttribute('data-method'));
+        const tags = tokenList(item.getAttribute('data-tags'));
+        if (q && name.indexOf(q) === -1) return false;
+        if (method && methods.indexOf(method) === -1) return false;
+        if (tag && tags.indexOf(tag) === -1) return false;
+        return true;
+      });
+    }
+
+    function renderPagination(totalPages) {
+      paginationEl.innerHTML = '';
+      if (totalPages <= 1) return;
+
+      function addBtn(label, page, opts) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'page-btn';
+        btn.textContent = typeof label === 'number' ? toPersianDigits(label) : label;
+        if (opts && opts.active) btn.classList.add('is-active');
+        if (opts && opts.disabled) btn.disabled = true;
+        if (!(opts && opts.disabled) && page) {
+          btn.addEventListener('click', function () {
+            currentPage = page;
+            render();
+            const section = document.getElementById('categoryProducts');
+            if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        }
+        paginationEl.appendChild(btn);
+      }
+
+      addBtn('قبلی', currentPage - 1, { disabled: currentPage <= 1 });
+      for (let i = 1; i <= totalPages; i += 1) {
+        addBtn(i, i, { active: i === currentPage });
+      }
+      addBtn('بعدی', currentPage + 1, { disabled: currentPage >= totalPages });
+    }
+
+    function render() {
+      const filtered = getFiltered();
+      const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+      if (currentPage > totalPages) currentPage = totalPages;
+      const start = (currentPage - 1) * PAGE_SIZE;
+
+      items.forEach(function (item) {
+        item.hidden = true;
+      });
+      filtered.forEach(function (item, index) {
+        grid.appendChild(item);
+        item.hidden = !(index >= start && index < start + PAGE_SIZE);
+      });
+
+      const pageItems = filtered.slice(start, start + PAGE_SIZE);
+      if (emptyEl) emptyEl.hidden = filtered.length !== 0;
+      if (countEl) {
+        if (!filtered.length) {
+          countEl.textContent = 'نتیجه‌ای یافت نشد';
+        } else {
+          countEl.textContent =
+            'نمایش ' +
+            toPersianDigits(start + 1) +
+            ' تا ' +
+            toPersianDigits(start + pageItems.length) +
+            ' از ' +
+            toPersianDigits(filtered.length) +
+            ' محصول';
+        }
+      }
+      renderPagination(filtered.length ? totalPages : 0);
+    }
+
+    function onChange() {
+      currentPage = 1;
+      render();
+    }
+
+    if (searchEl) searchEl.addEventListener('input', onChange);
+    if (methodEl) methodEl.addEventListener('change', onChange);
+    if (tagEl) tagEl.addEventListener('change', onChange);
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        if (searchEl) searchEl.value = '';
+        if (methodEl) methodEl.value = '';
+        if (tagEl) tagEl.value = '';
+        onChange();
+      });
+    }
+
+    render();
+  })();
+
+  /* -------- Product details: packs, copy link, sticky CTA -------- */
+  (function initProductDetails() {
+    const panel = document.querySelector('.product-detail-panel');
+    if (!panel) return;
+
+    const packChips = document.querySelectorAll('.product-pack-chip');
+    const quotePack = document.getElementById('qPack');
+    const copyBtn = document.getElementById('productCopyLink');
+    const toast = document.getElementById('productCopyToast');
+    const sticky = document.getElementById('productStickyBar');
+    const showcase = document.getElementById('productShowcase');
+
+    packChips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        packChips.forEach(function (c) {
+          c.classList.remove('is-active');
+        });
+        chip.classList.add('is-active');
+        if (quotePack) {
+          quotePack.value = chip.getAttribute('data-pack') || '';
+        }
+      });
+    });
+
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        const url = window.location.href;
+        function showOk() {
+          if (!toast) return;
+          toast.hidden = false;
+          setTimeout(function () {
+            toast.hidden = true;
+          }, 2000);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(showOk).catch(function () {
+            window.prompt('لینک محصول:', url);
+          });
+        } else {
+          window.prompt('لینک محصول:', url);
+        }
+      });
+    }
+
+    if (sticky && showcase) {
+      function onScroll() {
+        const rect = showcase.getBoundingClientRect();
+        const show = rect.bottom < 80;
+        sticky.hidden = !show;
+        document.body.classList.toggle('has-product-sticky', show);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    const quoteModal = document.getElementById('quoteModal');
+    if (quoteModal && quotePack) {
+      quoteModal.addEventListener('show.bs.modal', function () {
+        const active = document.querySelector('.product-pack-chip.is-active');
+        if (active) quotePack.value = active.getAttribute('data-pack') || quotePack.value;
+      });
+    }
+  })();
+
+  /* -------- Blog share: copy link -------- */
+  (function initBlogShare() {
+    const btn = document.querySelector('[data-share="copy"]');
+    if (!btn) return;
+    const feedback = document.getElementById('blogShareFeedback');
+    btn.addEventListener('click', function () {
+      const url = window.location.href;
+      function showOk() {
+        if (!feedback) return;
+        feedback.hidden = false;
+        setTimeout(function () {
+          feedback.hidden = true;
+        }, 2200);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(showOk).catch(function () {
+          window.prompt('لینک مطلب:', url);
+        });
+      } else {
+        window.prompt('لینک مطلب:', url);
+      }
+    });
+  })();
+
   document.querySelectorAll('[data-bs-target="#consultModal"]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       if (navCollapse && navCollapse.classList.contains('is-visible')) {
@@ -330,4 +789,129 @@
       if (success) success.classList.add('d-none');
     });
   }
+
+  /* -------- Distributors Iran map filter -------- */
+  (function initDistributorsFinder() {
+    const root = document.getElementById('distributorsFinder');
+    if (!root) return;
+
+    const select = document.getElementById('provinceSelect');
+    const clearBtn = document.getElementById('clearProvinceFilter');
+    const list = document.getElementById('distributorsList');
+    const emptyEl = document.getElementById('distributorsEmpty');
+    const titleEl = document.getElementById('distributorsListTitle');
+    const countEl = document.getElementById('distributorsListCount');
+    const mapHost = document.getElementById('iranMapHost');
+    if (!select || !list || !mapHost) return;
+
+    const items = Array.prototype.slice.call(
+      list.querySelectorAll('.distributor-item[data-province]')
+    );
+    const provincesWithDealers = {};
+    items.forEach(function (item) {
+      provincesWithDealers[item.getAttribute('data-province')] = true;
+    });
+
+    let provincePaths = [];
+
+    function setProvince(province) {
+      const value = province || '';
+      select.value = value;
+      if (clearBtn) clearBtn.hidden = !value;
+
+      let visible = 0;
+      items.forEach(function (item) {
+        const match = !value || item.getAttribute('data-province') === value;
+        item.hidden = !match;
+        if (match) visible += 1;
+      });
+
+      if (emptyEl) emptyEl.hidden = visible !== 0;
+
+      if (titleEl) {
+        titleEl.textContent = value
+          ? 'توزیع‌کنندگان ' + value
+          : 'همه توزیع‌کنندگان';
+      }
+      if (countEl) {
+        countEl.textContent =
+          toPersianDigits(visible) +
+          ' مورد' +
+          (value ? ' در استان انتخاب‌شده' : '');
+      }
+
+      provincePaths.forEach(function (path) {
+        const name = path.getAttribute('data-province');
+        const selected = Boolean(value) && name === value;
+        path.classList.toggle('is-selected', selected);
+        path.classList.toggle('is-dimmed', Boolean(value) && !selected);
+        path.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      });
+    }
+
+    function bindMapPaths(svg) {
+      provincePaths = Array.prototype.slice.call(
+        svg.querySelectorAll('[data-province]')
+      );
+      provincePaths.forEach(function (path) {
+        const name = path.getAttribute('data-province');
+        if (!path.classList.contains('iran-province')) {
+          path.classList.add('iran-province');
+        }
+        path.setAttribute('role', 'button');
+        path.setAttribute('tabindex', '0');
+        path.setAttribute('aria-label', 'استان ' + name);
+        path.setAttribute('aria-pressed', 'false');
+        if (provincesWithDealers[name]) {
+          path.classList.add('has-distributors');
+        }
+
+        path.addEventListener('click', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          setProvince(select.value === name ? '' : name);
+        });
+        path.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            setProvince(select.value === name ? '' : name);
+          }
+        });
+      });
+      setProvince(select.value);
+    }
+
+    select.addEventListener('change', function () {
+      setProvince(select.value);
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        setProvince('');
+      });
+    }
+
+    fetch('assets/img/iran-map.svg')
+      .then(function (response) {
+        if (!response.ok) throw new Error('map load failed');
+        return response.text();
+      })
+      .then(function (svgText) {
+        mapHost.innerHTML = svgText;
+        const svg = mapHost.querySelector('svg');
+        if (svg) {
+          svg.classList.add('iran-map-svg');
+          svg.removeAttribute('width');
+          svg.removeAttribute('height');
+          bindMapPaths(svg);
+        } else {
+          setProvince('');
+        }
+      })
+      .catch(function () {
+        mapHost.innerHTML =
+          '<p class="text-muted small mb-0">نقشه در دسترس نیست؛ از فهرست استان استفاده کنید.</p>';
+        setProvince('');
+      });
+  })();
 })();
