@@ -206,6 +206,21 @@ a {
 	border-radius: var(--radius-lg);
 }
 
+.cta-form-card .filter-select-trigger,
+.form-page-card .filter-select-trigger,
+.consult-form .filter-select-trigger {
+	border-radius: var(--radius);
+	border-color: var(--bg-soft);
+	padding: 0.65rem 1rem;
+}
+
+.cta-form-card .filter-select-menu,
+.form-page-card .filter-select-menu,
+.consult-form .filter-select-menu {
+	border-radius: var(--radius);
+	z-index: 1080;
+}
+
 /* ===================== Buttons ===================== */
 .btn {
 	font-weight: 600;
@@ -1944,8 +1959,12 @@ button.chip.is-active {
 .consult-modal-content {
 	border: none;
 	border-radius: var(--radius-lg);
-	overflow: hidden;
+	overflow: visible;
 	box-shadow: var(--shadow-lg);
+}
+
+.consult-modal-content .modal-body {
+	overflow: visible;
 }
 
 .consult-modal-header {
@@ -2685,6 +2704,26 @@ body.page-inner .navbar:not(.scrolled) .navbar-toggler-icon {
 
 .page-figure--tall img {
 	min-height: 18rem;
+}
+
+.page-about .page-figure {
+	max-width: 44rem;
+	margin-inline: auto;
+}
+
+.page-about .page-figure img {
+	min-height: 22rem;
+}
+
+.page-about .page-figure--tall img {
+	min-height: 27rem;
+	max-height: 32rem;
+}
+
+@media (min-width: 992px) {
+	.page-about .page-figure {
+		max-width: 48rem;
+	}
 }
 
 .page-figure figcaption {
@@ -3692,6 +3731,12 @@ body.has-product-sticky {
 	border: 1px solid var(--border-soft);
 	border-radius: var(--radius);
 	margin-bottom: 0.75rem;
+}
+
+#tds .download-row .btn {
+	min-width: 8.5rem;
+	justify-content: center;
+	text-align: center;
 }
 
 /* Distributors — Iran map finder */

@@ -359,6 +359,7 @@
         '#provinceSelect',
         '.filter-bar .form-select',
         '.iran-map-controls .form-select',
+        '.consult-form .form-select',
       ].join(', ')
     );
     if (!selects.length) return;
@@ -379,6 +380,10 @@
 
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') closeOpen();
+    });
+
+    document.querySelectorAll('.modal').forEach(function (modal) {
+      modal.addEventListener('hide.bs.modal', closeOpen);
     });
 
     const valueDesc = Object.getOwnPropertyDescriptor(
