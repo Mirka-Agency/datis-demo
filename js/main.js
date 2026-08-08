@@ -34,14 +34,9 @@
     });
   }
 
-  const isInnerPage = document.body.classList.contains('page-inner');
-
   function handleScroll() {
-    const scrollY = window.scrollY || window.pageYOffset || 0;
-    if (navbar) {
-      // Inner pages stay in "scrolled" (solid) state — avoids iOS style flicker
-      navbar.classList.toggle('scrolled', isInnerPage || scrollY > 40);
-    }
+    const scrollY = window.scrollY;
+    if (navbar) navbar.classList.toggle('scrolled', scrollY > 40);
     if (backToTop) backToTop.classList.toggle('visible', scrollY > 500);
     updateActiveNavLink();
   }
@@ -49,65 +44,28 @@
   window.addEventListener('scroll', handleScroll, { passive: true });
   handleScroll();
 
-  /* -------- Mobile menu (panel + backdrop on <body> for iOS) -------- */
+  /* -------- Mobile menu (custom slide ΓÇö no Bootstrap height animation) -------- */
   const navCollapse = document.getElementById('navbarNav');
   const navToggler = document.querySelector('.navbar-toggler');
   const mobileNavMq = window.matchMedia('(max-width: 991.98px)');
   let savedScrollY = 0;
   let mobileNavClosing = false;
-  let mobileNavBackdrop = null;
-  let navPanelHome = null;
 
   function isMobileNav() {
     return mobileNavMq.matches;
   }
 
-  function ensureMobileNavChrome() {
-    if (!navCollapse || !navbar) return;
-
-    if (!mobileNavBackdrop) {
-      mobileNavBackdrop = document.createElement('div');
-      mobileNavBackdrop.className = 'mobile-nav-backdrop';
-      mobileNavBackdrop.setAttribute('aria-hidden', 'true');
-      mobileNavBackdrop.addEventListener('click', function () {
-        setMobileNavOpen(false);
-      });
-    }
-
-    if (!navPanelHome) {
-      navPanelHome = navCollapse.parentElement;
-    }
-
-    if (isMobileNav()) {
-      if (mobileNavBackdrop.parentElement !== document.body) {
-        document.body.appendChild(mobileNavBackdrop);
-      }
-      if (navCollapse.parentElement !== document.body) {
-        document.body.appendChild(navCollapse);
-      }
-    } else if (navPanelHome) {
-      if (navCollapse.parentElement !== navPanelHome) {
-        navPanelHome.appendChild(navCollapse);
-      }
-      if (mobileNavBackdrop && mobileNavBackdrop.parentElement) {
-        mobileNavBackdrop.parentElement.removeChild(mobileNavBackdrop);
-      }
-    }
-  }
-
   function lockPageScroll() {
-    savedScrollY = window.scrollY || window.pageYOffset || 0;
+    savedScrollY = window.scrollY;
+    document.body.style.top = '-' + savedScrollY + 'px';
     document.documentElement.classList.add('mobile-nav-open');
     document.body.classList.add('mobile-nav-open');
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
   }
 
   function unlockPageScroll() {
     document.documentElement.classList.remove('mobile-nav-open');
     document.body.classList.remove('mobile-nav-open');
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
+    document.body.style.top = '';
     window.scrollTo(0, savedScrollY);
   }
 
@@ -115,13 +73,11 @@
     if (!navCollapse) return;
     mobileNavClosing = false;
     navCollapse.classList.remove('show', 'is-visible');
-    if (mobileNavBackdrop) mobileNavBackdrop.classList.remove('is-visible');
     unlockPageScroll();
   }
 
   function setMobileNavOpen(open, instant) {
     if (!navCollapse || !navbar || !navToggler || !isMobileNav()) return;
-    ensureMobileNavChrome();
 
     if (open) {
       if (mobileNavClosing) return;
@@ -132,7 +88,6 @@
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
           navCollapse.classList.add('is-visible');
-          if (mobileNavBackdrop) mobileNavBackdrop.classList.add('is-visible');
         });
       });
       return;
@@ -141,11 +96,13 @@
     if (!navCollapse.classList.contains('is-visible') && !instant) return;
 
     navCollapse.classList.remove('is-visible');
-    if (mobileNavBackdrop) mobileNavBackdrop.classList.remove('is-visible');
     navbar.classList.remove('menu-open');
     navToggler.setAttribute('aria-expanded', 'false');
 
     if (instant) {
+      navCollapse.classList.remove('is-visible');
+      navbar.classList.remove('menu-open');
+      navToggler.setAttribute('aria-expanded', 'false');
       finishMobileNavClose();
       return;
     }
@@ -154,7 +111,7 @@
     var closed = false;
     function onPanelTransitionEnd(e) {
       if (closed || e.target !== navCollapse) return;
-      if (e.propertyName !== 'transform') return;
+      if (e.propertyName !== 'transform' && e.propertyName !== 'opacity') return;
       closed = true;
       navCollapse.removeEventListener('transitionend', onPanelTransitionEnd);
       finishMobileNavClose();
@@ -171,21 +128,23 @@
   }
 
   if (navCollapse && navbar && navToggler) {
-    ensureMobileNavChrome();
-
     navToggler.addEventListener('click', function (e) {
       if (!isMobileNav()) return;
       e.preventDefault();
-      e.stopPropagation();
       setMobileNavOpen(!navCollapse.classList.contains('is-visible'));
     });
 
+    navbar.addEventListener('click', function (e) {
+      if (!navCollapse.classList.contains('is-visible')) return;
+      if (e.target.closest('.mobile-nav-panel')) return;
+      if (e.target.closest('.navbar-toggler')) return;
+      setMobileNavOpen(false);
+    });
+
     mobileNavMq.addEventListener('change', function () {
-      ensureMobileNavChrome();
       if (mobileNavMq.matches) return;
       mobileNavClosing = false;
       navCollapse.classList.remove('show', 'is-visible');
-      if (mobileNavBackdrop) mobileNavBackdrop.classList.remove('is-visible');
       navbar.classList.remove('menu-open');
       navToggler.setAttribute('aria-expanded', 'false');
       unlockPageScroll();
