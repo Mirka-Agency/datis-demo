@@ -350,6 +350,144 @@
     });
   })();
 
+  /* -------- Rounded filter selects (custom submenu) -------- */
+  (function initFilterSelects() {
+    const selects = document.querySelectorAll(
+      [
+        '#productsFilters .form-select',
+        '#categoryFilters .form-select',
+        '#provinceSelect',
+        '.filter-bar .form-select',
+        '.iran-map-controls .form-select',
+      ].join(', ')
+    );
+    if (!selects.length) return;
+
+    let openWrap = null;
+
+    function closeOpen() {
+      if (!openWrap) return;
+      openWrap.classList.remove('is-open');
+      const trigger = openWrap.querySelector('.filter-select-trigger');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      openWrap = null;
+    }
+
+    document.addEventListener('click', function (event) {
+      if (openWrap && !openWrap.contains(event.target)) closeOpen();
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeOpen();
+    });
+
+    const valueDesc = Object.getOwnPropertyDescriptor(
+      HTMLSelectElement.prototype,
+      'value'
+    );
+
+    selects.forEach(function (select) {
+      if (select.closest('.filter-select')) return;
+
+      const wrap = document.createElement('div');
+      wrap.className = 'filter-select';
+      if (select.classList.contains('mb-3')) {
+        wrap.classList.add('mb-3');
+        select.classList.remove('mb-3');
+      }
+
+      select.parentNode.insertBefore(wrap, select);
+      wrap.appendChild(select);
+      select.classList.add('filter-select-native');
+      select.setAttribute('tabindex', '-1');
+
+      const trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = 'filter-select-trigger';
+      trigger.setAttribute('aria-haspopup', 'listbox');
+      trigger.setAttribute('aria-expanded', 'false');
+      if (select.id) {
+        trigger.setAttribute('aria-controls', select.id + 'Menu');
+        trigger.id = select.id + 'Trigger';
+      }
+
+      const menu = document.createElement('ul');
+      menu.className = 'filter-select-menu';
+      menu.setAttribute('role', 'listbox');
+      if (select.id) menu.id = select.id + 'Menu';
+
+      function syncFromSelect() {
+        const opt = select.options[select.selectedIndex];
+        trigger.textContent = opt ? opt.textContent : '';
+        Array.prototype.forEach.call(
+          menu.querySelectorAll('.filter-select-option'),
+          function (item) {
+            const selected = item.getAttribute('data-value') === select.value;
+            item.classList.toggle('is-selected', selected);
+            item.setAttribute('aria-selected', selected ? 'true' : 'false');
+          }
+        );
+      }
+
+      function rebuildOptions() {
+        menu.innerHTML = '';
+        Array.prototype.forEach.call(select.options, function (opt) {
+          const item = document.createElement('li');
+          item.className = 'filter-select-option';
+          item.setAttribute('role', 'option');
+          item.setAttribute('data-value', opt.value);
+          item.textContent = opt.textContent;
+          if (opt.disabled) {
+            item.classList.add('is-disabled');
+            item.setAttribute('aria-disabled', 'true');
+          }
+          item.addEventListener('click', function () {
+            if (opt.disabled) return;
+            select.value = opt.value;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+            syncFromSelect();
+            closeOpen();
+            trigger.focus();
+          });
+          menu.appendChild(item);
+        });
+        syncFromSelect();
+      }
+
+      trigger.addEventListener('click', function () {
+        const willOpen = !wrap.classList.contains('is-open');
+        closeOpen();
+        if (!willOpen) return;
+        wrap.classList.add('is-open');
+        trigger.setAttribute('aria-expanded', 'true');
+        openWrap = wrap;
+      });
+
+      select.addEventListener('focus', function () {
+        trigger.focus();
+      });
+
+      select.addEventListener('change', syncFromSelect);
+
+      if (valueDesc && valueDesc.get && valueDesc.set) {
+        Object.defineProperty(select, 'value', {
+          get: function () {
+            return valueDesc.get.call(this);
+          },
+          set: function (next) {
+            valueDesc.set.call(this, next);
+            syncFromSelect();
+          },
+          configurable: true,
+        });
+      }
+
+      wrap.appendChild(trigger);
+      wrap.appendChild(menu);
+      rebuildOptions();
+    });
+  })();
+
   /* -------- Products catalog filters + pagination -------- */
   (function initProductsCatalog() {
     const grid = document.getElementById('productsGrid');
