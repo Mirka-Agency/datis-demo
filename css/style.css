@@ -34,6 +34,46 @@
 	/* Bootstrap overrides */
 	--bs-primary: #439a0d;
 	--bs-primary-rgb: 67, 154, 13;
+	--bs-focus-ring-color: rgba(67, 154, 13, 0.25);
+	--bs-link-color: #439a0d;
+	--bs-link-hover-color: #18642e;
+}
+
+/* Form focus — brand green (not Bootstrap blue) */
+.form-control:focus,
+.form-select:focus,
+.form-control:focus-visible,
+.form-select:focus-visible,
+.form-check-input:focus,
+.form-check-input:focus-visible {
+	border-color: var(--color-primary) !important;
+	box-shadow: 0 0 0 0.25rem rgba(67, 154, 13, 0.25) !important;
+	outline: 0;
+}
+
+.form-check-input:checked {
+	background-color: var(--color-primary);
+	border-color: var(--color-primary);
+}
+
+.form-check-input:checked:focus {
+	box-shadow: 0 0 0 0.25rem rgba(67, 154, 13, 0.25);
+}
+
+.form-range:focus {
+	outline: 0;
+}
+
+.form-range:focus::-webkit-slider-thumb {
+	box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(67, 154, 13, 0.25);
+}
+
+.form-range::-webkit-slider-thumb {
+	background-color: var(--color-primary);
+}
+
+.form-range::-moz-range-thumb {
+	background-color: var(--color-primary);
 }
 
 /* ===================== Base ===================== */
@@ -129,9 +169,12 @@ a {
 	transition: transform 0.2s ease;
 }
 
-.filter-select.is-open .filter-select-trigger {
+.filter-select.is-open .filter-select-trigger,
+.filter-select-trigger:focus,
+.filter-select-trigger:focus-visible {
 	border-color: var(--color-primary);
 	box-shadow: 0 0 0 0.2rem rgba(67, 154, 13, 0.15);
+	outline: 0;
 }
 
 .filter-select.is-open .filter-select-trigger::after {
