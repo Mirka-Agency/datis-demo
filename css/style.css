@@ -31,7 +31,7 @@
 	--shadow-lg: 0 24px 60px rgba(8, 47, 18, 0.16);
 	--transition: all 0.3s ease;
 
-	/* Bootstrap overrides */
+	/* Bootstrap overrides — force green over CDN defaults */
 	--bs-primary: #439a0d;
 	--bs-primary-rgb: 67, 154, 13;
 	--bs-focus-ring-color: rgba(67, 154, 13, 0.25);
@@ -39,25 +39,43 @@
 	--bs-link-hover-color: #18642e;
 }
 
+:root,
+[data-bs-theme="light"] {
+	--bs-primary: #439a0d !important;
+	--bs-primary-rgb: 67, 154, 13 !important;
+	--bs-focus-ring-color: rgba(67, 154, 13, 0.25) !important;
+}
+
 /* Form focus — brand green (not Bootstrap blue) */
+.form-control,
+.form-select {
+	--bs-border-color: var(--border-soft);
+}
+
 .form-control:focus,
 .form-select:focus,
 .form-control:focus-visible,
 .form-select:focus-visible,
 .form-check-input:focus,
-.form-check-input:focus-visible {
-	border-color: var(--color-primary) !important;
-	box-shadow: 0 0 0 0.25rem rgba(67, 154, 13, 0.25) !important;
-	outline: 0;
+.form-check-input:focus-visible,
+textarea.form-control:focus,
+input.form-control:focus,
+select.form-select:focus {
+	color: var(--text-body);
+	background-color: #fff;
+	border-color: #439a0d !important;
+	outline: 0 !important;
+	box-shadow: 0 0 0 0.25rem rgba(67, 154, 13, 0.28) !important;
 }
 
 .form-check-input:checked {
-	background-color: var(--color-primary);
-	border-color: var(--color-primary);
+	background-color: #439a0d;
+	border-color: #439a0d;
 }
 
 .form-check-input:checked:focus {
-	box-shadow: 0 0 0 0.25rem rgba(67, 154, 13, 0.25);
+	border-color: #439a0d;
+	box-shadow: 0 0 0 0.25rem rgba(67, 154, 13, 0.28);
 }
 
 .form-range:focus {
@@ -65,15 +83,20 @@
 }
 
 .form-range:focus::-webkit-slider-thumb {
-	box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(67, 154, 13, 0.25);
+	box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(67, 154, 13, 0.28);
 }
 
 .form-range::-webkit-slider-thumb {
-	background-color: var(--color-primary);
+	background-color: #439a0d;
 }
 
 .form-range::-moz-range-thumb {
-	background-color: var(--color-primary);
+	background-color: #439a0d;
+}
+
+::selection {
+	background: rgba(67, 154, 13, 0.28);
+	color: var(--color-dark);
 }
 
 /* ===================== Base ===================== */
@@ -1425,6 +1448,28 @@ button.chip.is-active {
 	margin-top: 0.2rem;
 }
 
+.category-seo-box .d-flex.gap-2 {
+	width: 100%;
+}
+
+.category-seo-box .d-flex.gap-2 > .btn {
+	flex: 1 1 0;
+	min-width: 0;
+	justify-content: center;
+	text-align: center;
+	white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+	.category-seo-box .d-flex.gap-2 {
+		flex-direction: column;
+	}
+
+	.category-seo-box .d-flex.gap-2 > .btn {
+		width: 100%;
+	}
+}
+
 .category-side-panel {
 	display: flex;
 	flex-direction: column;
@@ -2700,7 +2745,7 @@ body.page-inner .navbar:not(.scrolled) .navbar-toggler-icon {
 
 .page-hero {
 	position: relative;
-	padding: 7.5rem 0 2.75rem;
+	padding: 7.5rem 0 1.5rem;
 	background:
 		radial-gradient(
 			circle at 12% 20%,
@@ -4610,31 +4655,72 @@ a.contact-channel:hover {
 	margin-bottom: 0.5rem;
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 991.98px) {
+	/* Compact page-hero container to content height */
 	.page-hero {
-		padding: 6.5rem 0 2rem;
+		padding-top: calc(4.75rem + env(safe-area-inset-top, 0px));
+		padding-bottom: 0 !important;
+		min-height: 0 !important;
+		height: auto !important;
 	}
 
-	.page-hero-inner {
-		flex-direction: column;
-		align-items: stretch;
+	.page-hero > .container {
+		height: auto !important;
+		min-height: 0 !important;
+		padding-top: 0;
+		padding-bottom: 0.65rem !important;
 	}
 
-	.page-product-detail .page-hero {
-		padding-bottom: 0.5rem;
+	.page-hero-inner,
+	.page-hero-copy {
+		display: block;
+		height: auto !important;
+		min-height: 0 !important;
+		margin: 0 !important;
+		padding: 0 !important;
 	}
 
-	.page-product-detail .page-hero-inner {
-		gap: 0.4rem;
+	.page-hero-title {
+		margin-bottom: 0.2rem !important;
+		font-size: clamp(1.3rem, 4.5vw, 1.75rem);
+		line-height: 1.35;
 	}
 
-	.page-product-detail .page-hero-desc {
-		margin-bottom: 0;
-		line-height: 1.6;
+	.page-hero-desc {
+		margin: 0 !important;
+		padding: 0 !important;
+		line-height: 1.55;
+		font-size: 0.9rem;
+	}
+
+	.page-hero .breadcrumb-nav {
+		margin-bottom: 0.35rem !important;
+	}
+
+	.page-hero .d-flex.flex-wrap.gap-2.mt-3 {
+		margin-top: 0.6rem !important;
+		margin-bottom: 0 !important;
+	}
+
+	.page-hero + .page-section,
+	.page-hero + section.page-section,
+	.page-hero + section {
+		padding-top: 1.15rem;
+	}
+}
+
+@media (max-width: 767.98px) {
+	.page-hero > .container {
+		padding-bottom: 0.5rem !important;
 	}
 
 	.page-product-detail #productShowcase.page-section {
-		padding-top: 0.6rem;
+		padding-top: 0.5rem;
+	}
+
+	.page-category #categoryIntro.page-section {
+		padding-top: 1rem;
+		padding-bottom: 2rem;
 	}
 
 	.page-product-detail .product-detail-media {
@@ -4699,5 +4785,23 @@ a.contact-channel:hover {
 		font-size: 0.82rem;
 		line-height: 1.65;
 	}
+}
+
+/* ===== Final form focus override (must win over Bootstrap CDN blue) ===== */
+.form-control:focus,
+.form-select:focus,
+.form-control:focus-visible,
+.form-select:focus-visible,
+.form-floating > .form-control:focus,
+.form-floating > .form-select:focus,
+.was-validated .form-control:focus,
+.was-validated .form-select:focus,
+.form-control.is-valid:focus,
+.form-control.is-invalid:focus,
+.form-select.is-valid:focus,
+.form-select.is-invalid:focus {
+	border-color: #439a0d !important;
+	box-shadow: 0 0 0 0.25rem rgba(67, 154, 13, 0.28) !important;
+	outline: 0 !important;
 }
 
