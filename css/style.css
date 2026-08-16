@@ -975,6 +975,52 @@ html.mobile-nav-open {
 	}
 }
 
+/* ===================== Home About ===================== */
+.home-about {
+	position: relative;
+	background:
+		radial-gradient(
+			circle at 88% 20%,
+			rgba(67, 154, 13, 0.1) 0%,
+			transparent 42%
+		),
+		linear-gradient(165deg, #fff 0%, var(--bg-light) 100%);
+}
+
+.home-about-row {
+	align-items: center;
+}
+
+.home-about .section-title {
+	margin-bottom: 0.85rem;
+}
+
+.home-about-list {
+	max-width: 34rem;
+}
+
+.home-about-visual {
+	margin: 0;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	border: 1px solid var(--border-soft);
+	box-shadow: var(--shadow);
+	background: var(--bg-soft);
+}
+
+.home-about-visual img {
+	display: block;
+	width: 100%;
+	height: clamp(16rem, 42vw, 24rem);
+	object-fit: cover;
+}
+
+@media (max-width: 991.98px) {
+	.home-about-visual img {
+		height: 14.5rem;
+	}
+}
+
 /* ===================== Explore / Filter ===================== */
 .explore-tabs {
 	gap: 0.75rem;

@@ -172,28 +172,6 @@
 							<label class="form-label" for="productsSearch">جستجو</label>
 							<input type="search" class="form-control mb-3" id="productsSearch" placeholder="نام محصول…" autocomplete="off" />
 
-							<label class="form-label" for="productsFamily">خانواده محصول</label>
-							<select class="form-select mb-3" id="productsFamily">
-								<option value="">همه خانواده‌ها</option>
-								<option value="soluble">کودهای محلول</option>
-								<option value="biostimulant">بایواستیمولانت</option>
-								<option value="micro">ریزمغذی</option>
-								<option value="crf">کندرها</option>
-								<option value="foliar">محلول‌پاش</option>
-								<option value="calcium">کلسیم‌دار</option>
-							</select>
-
-							<label class="form-label" for="productsMethod">نوع کشت / کاربرد</label>
-							<select class="form-select mb-3" id="productsMethod">
-								<option value="">همه روش‌ها</option>
-								<option value="greenhouse">گلخانه</option>
-								<option value="openfield">فضای باز</option>
-								<option value="drip">قطره‌ای</option>
-								<option value="foliar">محلول‌پاشی</option>
-								<option value="soil">خاکی</option>
-								<option value="orchard">درختان میوه</option>
-							</select>
-
 							<label class="form-label" for="productsCrop">محصول کشاورزی</label>
 							<select class="form-select mb-3" id="productsCrop">
 								<option value="">همه محصولات</option>
@@ -207,6 +185,28 @@
 								<option value="strawberry">توت‌فرنگی</option>
 							</select>
 
+							<label class="form-label" for="productsMethod">نوع کشت</label>
+							<select class="form-select mb-3" id="productsMethod">
+								<option value="">همه روش‌ها</option>
+								<option value="greenhouse">گلخانه</option>
+								<option value="openfield">فضای باز</option>
+								<option value="drip">قطره‌ای</option>
+								<option value="foliar">محلول‌پاشی</option>
+								<option value="soil">خاکی</option>
+								<option value="orchard">درختان میوه</option>
+							</select>
+
+							<label class="form-label" for="productsFamily">نوع محصول</label>
+							<select class="form-select mb-3" id="productsFamily">
+								<option value="">همه انواع</option>
+								<option value="soluble">کودهای محلول</option>
+								<option value="biostimulant">بایواستیمولانت</option>
+								<option value="micro">ریزمغذی</option>
+								<option value="crf">کندرها</option>
+								<option value="foliar">محلول‌پاش</option>
+								<option value="calcium">کلسیم‌دار</option>
+							</select>
+
 							<fieldset class="products-filter-fieldset mb-3">
 								<legend class="form-label">وضعیت</legend>
 								<div class="form-check">
@@ -216,10 +216,6 @@
 								<div class="form-check">
 									<input class="form-check-input" type="checkbox" value="new" id="productsTagNew" />
 									<label class="form-check-label" for="productsTagNew">جدید</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="soluble-only" id="productsTagSoluble" />
-									<label class="form-check-label" for="productsTagSoluble">کاملاً محلول</label>
 								</div>
 							</fieldset>
 
