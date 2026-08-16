@@ -3787,6 +3787,17 @@ body.page-inner .navbar:not(.scrolled) .navbar-toggler-icon {
 	padding: 1rem 1.15rem;
 }
 
+.product-tab-note {
+	font-size: 0.92rem;
+	line-height: 1.85;
+	color: var(--text-body);
+}
+
+.product-tab-note a {
+	color: var(--color-primary);
+	font-weight: 700;
+}
+
 .product-benefits {
 	padding-top: 0.25rem;
 }
