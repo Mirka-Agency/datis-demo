@@ -3785,6 +3785,7 @@ body.page-inner .navbar:not(.scrolled) .navbar-toggler-icon {
 	border: 1px solid var(--border-soft);
 	border-radius: var(--radius);
 	padding: 1rem 1.15rem;
+	overflow-x: auto;
 }
 
 .product-tab-note {
@@ -3967,6 +3968,14 @@ body.has-product-sticky {
 	width: 40%;
 	color: var(--text-muted);
 	font-weight: 600;
+}
+
+.spec-table thead th {
+	width: auto;
+	color: var(--color-dark);
+	font-size: 0.9rem;
+	background: #f4faf0;
+	border-bottom-color: #d8ebc8;
 }
 
 .spec-table tr:last-child th,
