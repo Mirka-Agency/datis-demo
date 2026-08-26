@@ -1098,4 +1098,191 @@
         setProvince('');
       });
   })();
+
+  /* -------- Homepage product-brands slider -------- */
+  (function initBrandsSlider() {
+    const slider = document.getElementById('brandsSlider');
+    if (!slider) return;
+
+    const viewport = slider.querySelector('.brands-viewport');
+    const track = slider.querySelector('.brands-track');
+    const prevBtn = document.querySelector('[data-brands-prev]');
+    const nextBtn = document.querySelector('[data-brands-next]');
+    if (!viewport || !track) return;
+
+    const cards = Array.prototype.slice.call(track.children);
+    if (!cards.length) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const DURATION = 550;
+    let index = 0;
+    let locked = false;
+    let timer = null;
+    let hovering = false;
+    let pointerStartX = 0;
+    let swiped = false;
+
+    function gapPx() {
+      const styles = window.getComputedStyle(track);
+      return parseFloat(styles.columnGap || styles.gap) || 0;
+    }
+
+    function visibleCount() {
+      const width = viewport.clientWidth;
+      if (width >= 1080) return 4;
+      if (width >= 700) return 3;
+      if (width >= 480) return 2;
+      return 1;
+    }
+
+    function stepSize() {
+      const first = cards[0];
+      if (!first) return 0;
+      return first.getBoundingClientRect().width + gapPx();
+    }
+
+    function maxOffset() {
+      return Math.max(0, track.scrollWidth - viewport.clientWidth);
+    }
+
+    function maxIndex() {
+      const step = stepSize();
+      const max = maxOffset();
+      if (step <= 0 || max <= 0) return 0;
+      return Math.max(0, Math.round(max / step));
+    }
+
+    function offsetForIndex(i) {
+      const max = maxOffset();
+      const x = i * stepSize();
+      if (x < 0) return 0;
+      if (x > max) return max;
+      return x;
+    }
+
+    function layout() {
+      const count = Math.min(visibleCount(), cards.length);
+      const gap = gapPx();
+      const width = viewport.clientWidth;
+      if (width <= 0) return;
+      const cardW = (width - gap * (count - 1)) / count;
+      track.style.setProperty('--brand-visible', String(count));
+      track.style.setProperty('--brand-card-w', cardW + 'px');
+      void track.offsetWidth;
+      if (index > maxIndex()) index = maxIndex();
+    }
+
+    function updateButtons() {
+      const atStart = index <= 0;
+      const atEnd = index >= maxIndex();
+      if (prevBtn) {
+        prevBtn.disabled = atStart;
+        prevBtn.setAttribute('aria-disabled', atStart ? 'true' : 'false');
+      }
+      if (nextBtn) {
+        nextBtn.disabled = atEnd;
+        nextBtn.setAttribute('aria-disabled', atEnd ? 'true' : 'false');
+      }
+    }
+
+    function apply(animate) {
+      track.style.transition = animate && !reduceMotion ? 'transform 0.55s ease' : 'none';
+      track.style.transform = 'translateX(' + -offsetForIndex(index) + 'px)';
+      updateButtons();
+    }
+
+    function go(dir) {
+      const next = index + dir;
+      if (next < 0 || next > maxIndex() || locked) return false;
+      locked = true;
+      index = next;
+      apply(true);
+      window.setTimeout(function () {
+        locked = false;
+      }, DURATION + 20);
+      if (index >= maxIndex()) stopAutoplay();
+      return true;
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      if (reduceMotion || hovering || document.hidden) return;
+      if (index >= maxIndex()) return;
+      timer = window.setInterval(function () {
+        if (!go(1)) stopAutoplay();
+      }, 3200);
+    }
+
+    function stopAutoplay() {
+      if (timer) {
+        window.clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+        go(1);
+        startAutoplay();
+      });
+    }
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function () {
+        go(-1);
+        startAutoplay();
+      });
+    }
+
+    slider.addEventListener('mouseenter', function () {
+      hovering = true;
+      stopAutoplay();
+    });
+    slider.addEventListener('mouseleave', function () {
+      hovering = false;
+      startAutoplay();
+    });
+    slider.addEventListener('focusin', function () {
+      hovering = true;
+      stopAutoplay();
+    });
+    slider.addEventListener('focusout', function () {
+      hovering = false;
+      startAutoplay();
+    });
+
+    viewport.addEventListener('pointerdown', function (event) {
+      pointerStartX = event.clientX;
+      swiped = false;
+    });
+    viewport.addEventListener('pointerup', function (event) {
+      const dx = event.clientX - pointerStartX;
+      if (Math.abs(dx) < 40) return;
+      swiped = true;
+      go(dx < 0 ? 1 : -1);
+      startAutoplay();
+    });
+    track.addEventListener('click', function (event) {
+      if (!swiped) return;
+      event.preventDefault();
+      swiped = false;
+    });
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stopAutoplay();
+      else startAutoplay();
+    });
+
+    window.addEventListener(
+      'resize',
+      function () {
+        layout();
+        apply(false);
+      },
+      { passive: true }
+    );
+
+    layout();
+    apply(false);
+    startAutoplay();
+  })();
 })();
